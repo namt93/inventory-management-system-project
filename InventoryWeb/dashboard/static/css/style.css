@@ -1,0 +1,83 @@
+:root {
+  --background-color: white;
+  --color: black;
+}
+
+.darktheme {
+  --background-color: black;
+  --color: white;
+}
+/* Header */
+.header {
+  height: 72px;
+  color: white;
+  background-color: #12293b;
+}
+
+.header .nav li a {
+  color: white;
+}
+
+.header-trademark {
+  font-size: 26px;
+  font-weight: 560;
+  line-height: 72px;
+  text-align: center;
+}
+
+.header-more {
+  position: relative;
+  font-size: 20px;
+  line-height: 72px;
+  display: flex;
+}
+
+.header-more .header-more-title {
+  padding-left: 27px;
+  width: 124px;
+}
+
+.header-more > i {
+  padding-top: 27px;
+}
+
+.header-more:hover {
+  color: #ff9900;
+  cursor: pointer;
+}
+
+.header-more:hover .nav {
+  display: block;
+}
+
+.header-more .nav {
+  display: none;
+  position: absolute;
+  color: white;
+  background-color: #12293b;
+  top: 72px;
+  min-width: 240px;
+}
+
+.header-more .nav li {
+  list-style: none;
+}
+
+.header-more li:hover a {
+  cursor: pointer;
+  color: #ff9900;
+}
+
+.header-more .nav ul a {
+  display: none;
+  margin-left: -10px;
+}
+
+/* Right sidebar */
+.nav li a {
+  color: var(--color);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 560;
+}
