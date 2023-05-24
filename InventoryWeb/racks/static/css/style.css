@@ -7,6 +7,16 @@
   --background-color: black;
   --color: white;
 }
+
+/* Reset CSS */
+* {
+  text-decoration: none;
+}
+
+a[href] {
+  text-decoration: none;
+}
+
 /* Header */
 .header {
   height: 72px;
@@ -16,6 +26,8 @@
 
 .header .nav li a {
   color: white;
+  display: block;
+  width: 100%;
 }
 
 .header-trademark {
@@ -42,7 +54,7 @@
 }
 
 .header-more:hover {
-  color: #ff9900;
+  color: #0d6efd;
   cursor: pointer;
 }
 
@@ -65,7 +77,7 @@
 
 .header-more li:hover a {
   cursor: pointer;
-  color: #ff9900;
+  color: #0d6efd;
 }
 
 .header-more .nav ul a {
