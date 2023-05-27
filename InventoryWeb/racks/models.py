@@ -1,25 +1,39 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
-class User(models.Model):
-    email = models.CharField(max_length=100)
-    password = models.CharField(max_length=20)
-    username = models.CharField(max_length=20)
-    role = models.CharField(max_length=20)
-    created_at = models.DateTimeField(auto_now_add=True)
+
+class User(AbstractUser):
+
+    def __str__(self):
+        return self.username + ' | ' + str(self.email)
+
 
 class RackGroup(models.Model):
+    class Meta:
+        unique_together = ('description', 'location')
+
     location = models.CharField(max_length=100, blank=True)
     description = models.CharField(max_length=100, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="rack_groups", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.location + ' | ' + self.description 
 
 class Rack(models.Model):
+    class Meta:
+        unique_together = ('rack_name', 'rack_group')
+        ordering = ["id", "created_at"]
+
     rack_name = models.CharField(max_length=20)
+    password = models.CharField(max_length=100, null=True, blank=True)
     role = models.CharField(max_length=10)
-    rack_group = models.ForeignKey(RackGroup, on_delete=models.CASCADE)
+    rack_group = models.ForeignKey(RackGroup, related_name="racks", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
     
     def __str__(self):
         return self.rack_name
@@ -28,9 +42,10 @@ class EnvironmentStatus(models.Model):
     rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
     temperature = models.FloatField()
     humidity = models.FloatField()
+    active = models.BooleanField(default=True)
    
     def __str__(self):
-        return str(self.temperature) + '|' + str(self.humidity)
+        return str(self.temperature) + ' | ' + str(self.humidity)
 
 class OperationStatus(models.Model):
     rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
@@ -42,6 +57,7 @@ class OperationStatus(models.Model):
     is_endpoint = models.BooleanField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
 
 class BreakdownStatus(models.Model):
     rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
@@ -49,23 +65,35 @@ class BreakdownStatus(models.Model):
     is_skewed = models.BooleanField(null=True)
     is_overload_motor = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
 
 class Operation(models.Model):
-    rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    rack = models.ForeignKey(Rack, related_name="operations", on_delete=models.CASCADE)
     guide_light = models.BooleanField(null=True)
     open_specific_rack = models.BooleanField(null=True)
     ventilate = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
     
 class Document(models.Model):
-    rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    rack = models.ForeignKey(Rack, related_name="documents", on_delete=models.CASCADE)
     manager = models.ForeignKey(User, on_delete=models.CASCADE)
     author = models.CharField(max_length=50, null=True, blank=True)
-    published_at = models.DateTimeField(null=True)
+    title = models.CharField(max_length=100, blank=True)
+    published_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title + ' | ' + self.author
+
 
 class Borrowing(models.Model):
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    borrower = models.ForeignKey(User, on_delete=models.CASCADE)
+    borrower = models.ForeignKey(User, related_name="borrowings",on_delete=models.CASCADE)
+    document = models.ManyToManyField(Document)
     date_borrowed = models.DateTimeField(auto_now_add=True)
-    date_returned = models.DateTimeField(null=True)
+    date_returned = models.DateTimeField(null=True, blank=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.borrower) + ' | ' + str(self.date_borrowed)

@@ -1,10 +1,15 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('rack-groups', views.RackGroupViewSet)
+router.register('racks', views.RackViewSet)
+router.register('users', views.UserViewSet)
+router.register('documents', views.DocumentViewSet)
+router.register('borrowings', views.BorrowingViewSet)
+
 
 urlpatterns = [
-    path('', views.index, name='racks'),
-    path('setting/', views.setting),
-    path('help/', views.help),
-    path('login/', views.login_user, name='login'),
-    path('logout/', views.logout_user, name='logout'),
+    path('', include(router.urls))
 ]
