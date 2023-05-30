@@ -42,7 +42,10 @@ class EnvironmentStatus(models.Model):
     rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
     temperature = models.FloatField()
     humidity = models.FloatField()
+    weight = models.FloatField()
+    smoke =  models.FloatField()
     active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
    
     def __str__(self):
         return str(self.temperature) + ' | ' + str(self.humidity)
@@ -50,12 +53,10 @@ class EnvironmentStatus(models.Model):
 class OperationStatus(models.Model):
     rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
     movement_speed = models.FloatField()
-    weight = models.FloatField()
     displacement = models.FloatField()
     number_users = models.IntegerField()
     is_hard_locked = models.BooleanField()
     is_endpoint = models.BooleanField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
 
