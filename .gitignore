@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore node_modules and its child directories
+.front-end/inventory-ui/node_modules/
