@@ -1,0 +1,12 @@
+.wrapper {
+}
+
+.container {
+  min-height: 1000px;
+  background-color: var(--secondary-color);
+  display: flex;
+}
+
+.content {
+  flex: 1;
+}
