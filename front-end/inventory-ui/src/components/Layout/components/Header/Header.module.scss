@@ -1,9 +1,113 @@
 .wrapper {
+  --header-top-spacer: 12px;
+
   height: var(--default-layout-header-height, 60px);
   box-shadow: 0px 1px 1px rgb(0 0 0 / 12%);
+  background-color: var(--primary-color);
+  padding: 0 4px;
 }
 
 .inner {
   height: 100%;
   background-color: var(--primary-color);
+  align-items: center;
+}
+
+.header-trademark {
+  text-decoration: none;
+  font-size: var(--secondary-font-size);
+  font-weight: 560;
+  line-height: var(--default-layout-header-height);
+  color: var(--secondary-color);
+  padding: 12.5px 52px;
+}
+
+.header-search {
+  position: relative;
+  top: 19px;
+  display: flex;
+
+  input {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #e4e6eb;
+    background-color: #0b1822;
+    background-clip: padding-box;
+    border: 1px solid #0b1822;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    // transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin-right: 0.5rem;
+  }
+
+  input:focus {
+    border: 2px solid;
+    border-color: var(--primary-btn-color);
+    outline: 0;
+  }
+
+  .btn-search {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #e4e6eb;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 1px solid var(--primary-btn-color);
+    border-radius: 0.375rem;
+    background-color: #0b1822;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .btn-search:hover {
+    color: #fff;
+    background-color: var(--primary-btn-color);
+    border-color: var(--primary-btn-color);
+  }
+}
+
+.header-more {
+  color: var(--secondary-color);
+  font-size: var(--primary-font-size);
+  line-height: var(--default-layout-header-height);
+  height: 100%;
+  display: flex;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: var(--header-top-spacer);
+    left: -8px;
+    width: 1px;
+    height: calc(
+      var(--default-layout-header-height) - var(--header-top-spacer) * 2
+    );
+    background-color: #fff;
+  }
+
+  .header-more-title {
+    width: 60%;
+  }
+
+  .fa-chevron-down {
+    padding-top: calc(var(--default-layout-header-height) / 2 - 10px);
+  }
+}
+
+.header-more:hover {
+  cursor: pointer;
 }

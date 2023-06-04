@@ -4,8 +4,15 @@
   --primary-color: #12293b;
   --secondary-color: #e6edf3;
 
+  // Font size
+  --primary-font-size: 20px;
+  --secondary-font-size: 26px;
+
   // DefaultLayout
-  --default-layout-header-height: 60px;
+  --default-layout-header-height: 72px;
+
+  // Button
+  --primary-btn-color: #0d6efd;
 }
 
 * {
