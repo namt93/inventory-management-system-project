@@ -96,7 +96,7 @@
   font-size: calc(var(--secondary-font-size) + 0px);
   padding: var(--header-top-spacer) 8px;
   border-radius: 50%;
-  margin-top: calc(var(--header-top-spacer) - 4px);
+  margin-top: calc(var(--header-top-spacer) - 1px);
   margin-left: 60%;
   background-color: var(--primary-color);
   position: relative;
@@ -120,6 +120,7 @@
   line-height: var(--default-layout-header-height);
   height: 100%;
   display: flex;
+  padding-left: 8px;
   position: relative;
 
   &::before {

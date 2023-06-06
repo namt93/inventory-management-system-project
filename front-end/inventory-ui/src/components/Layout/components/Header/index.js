@@ -2,16 +2,18 @@ import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 
-import { useState } from "react";
+// import { useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faComputer } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import RackItem from "~/components/RackItem";
+import UserItem from "~/components/UserItem";
+import DocumentItem from "~/components/DocumentItem";
 
 const cx = classNames.bind(styles);
 function Header() {
-  const [searchResult, setSearchResult] = useState([]);
+  // const [searchResult, setSearchResult] = useState([]);
 
   // useEffect(() => {
   //   setTimeout(() => {
@@ -34,7 +36,7 @@ function Header() {
             <div className={cx("header-search")}>
               <Tippy
                 interactive
-                visible={searchResult.length > 0}
+                // visible={searchResult.length > 0}
                 render={(attrs) => (
                   <div className={cx("search-result")} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
@@ -42,6 +44,14 @@ function Header() {
                       <RackItem />
                       <RackItem />
                       <RackItem />
+                      <h4 className={cx("search-title")}>Users</h4>
+                      <UserItem />
+                      <UserItem />
+                      <UserItem />
+                      <h4 className={cx("search-title")}>Documents</h4>
+                      <DocumentItem />
+                      <DocumentItem />
+                      <DocumentItem />
                     </PopperWrapper>
                   </div>
                 )}

@@ -3,6 +3,7 @@
 :root {
   --primary-color: #12293b;
   --secondary-color: #e6edf3;
+  --green-color: #238636;
 
   // Font size
   --primary-font-size: 20px;
@@ -29,4 +30,16 @@ body {
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizeSpeed;
+}
+
+// Reset CSS
+button,
+input,
+[tabindex] {
+  outline: none;
+  border: none;
+}
+
+a[href] {
+  text-decoration: none;
 }
