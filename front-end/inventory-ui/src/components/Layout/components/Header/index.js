@@ -5,13 +5,22 @@ import { Wrapper as PopperWrapper } from "~/components/Popper";
 // import { useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faComputer } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faCircleQuestion,
+  faCog,
+  faComputer,
+  faSignOut,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
 import RackItem from "~/components/RackItem";
 import UserItem from "~/components/UserItem";
 import DocumentItem from "~/components/DocumentItem";
+import Menu from "~/components/Popper/Menu";
 
 const cx = classNames.bind(styles);
+
 function Header() {
   // const [searchResult, setSearchResult] = useState([]);
 
@@ -20,6 +29,30 @@ function Header() {
   //     setSearchResult([1, 2, 3]);
   //   }, 0);
   // });
+  const userMenu = [
+    {
+      icon: <FontAwesomeIcon icon={faUser} />,
+      title: "View profile",
+      to: "/@nblackk",
+    },
+    {
+      icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+      title: "Help",
+      separate: true,
+      to: "/help",
+    },
+    {
+      icon: <FontAwesomeIcon icon={faCog} />,
+      title: "Settings",
+      to: "/setting",
+    },
+    {
+      icon: <FontAwesomeIcon icon={faSignOut} />,
+      title: "Sign out",
+      to: "/login",
+      separate: true,
+    },
+  ];
 
   return (
     <header className={cx("wrapper")}>
@@ -77,15 +110,17 @@ function Header() {
               />
             </button>
           </div>
-          {/* Header more */}
+          {/* More */}
           <div className="col-sm-1">
-            <div className={cx("header-more")}>
-              <div className={cx("header-more-title")}>namt93</div>
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className={cx("fa-chevron-down")}
-              />
-            </div>
+            <Menu items={userMenu}>
+              <div className={cx("header-more")}>
+                <div className={cx("header-more-title")}>namt93</div>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className={cx("fa-chevron-down")}
+                />
+              </div>
+            </Menu>
           </div>
         </div>
       </div>

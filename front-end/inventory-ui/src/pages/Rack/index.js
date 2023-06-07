@@ -9,12 +9,14 @@ function Rack() {
     <div className={cx("wrapper")}>
       <div className="row">
         <div className="col-sm-1">
-          <h2 className={cx("page-title")}>Rack page</h2>
+          <h2 className={cx("page-title")}>Racks</h2>
         </div>
-        <div className={cx("col-sm-1", "offset-sm-9", "add-rack-btn")}>
-          <Button to="/racks/rack/add" primary>
-            Add rack
-          </Button>
+        <div className={cx("col-sm-1", "offset-sm-9")}>
+          <div className={cx("add-rack-btn")}>
+            <Button to="/racks/rack/add" primary>
+              Add rack
+            </Button>
+          </div>
         </div>
       </div>
     </div>
