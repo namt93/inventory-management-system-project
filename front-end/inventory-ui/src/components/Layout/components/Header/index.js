@@ -2,7 +2,7 @@ import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 
-// import { useState } from "react";
+import { useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -22,7 +22,7 @@ import Menu from "~/components/Popper/Menu";
 const cx = classNames.bind(styles);
 
 function Header() {
-  // const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
 
   // useEffect(() => {
   //   setTimeout(() => {
@@ -69,7 +69,7 @@ function Header() {
             <div className={cx("header-search")}>
               <Tippy
                 interactive
-                // visible={searchResult.length > 0}
+                visible={searchResult.length > 0}
                 render={(attrs) => (
                   <div className={cx("search-result")} tabIndex="-1" {...attrs}>
                     <PopperWrapper>

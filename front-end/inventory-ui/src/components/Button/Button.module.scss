@@ -45,7 +45,12 @@
 
 // Button sizes
 .small {
-  min-width: 88px;
+  min-width: 40px;
+  padding: 4px 16px;
+}
+
+.normal {
+  min-width: 80px;
   padding: 4px 16px;
 }
 
