@@ -6,11 +6,11 @@
   height: 1000px;
 }
 
-.today-details--title {
+.status--title {
   font-size: 18px;
   font-weight: 560;
   padding-top: 20px;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 }
 
 .property-container {
@@ -20,12 +20,12 @@
 }
 
 .grid-item {
-  height: 200px;
-  width: 282px;
+  height: 204px;
+  width: 284px;
   background-color: #201e1e;
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
-  margin: 4px 4px;
+  margin: 4px 10px;
   display: flex;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .property-title {
-  width: 112px;
+  width: 116px;
   font-weight: 560;
 }
 
@@ -74,4 +74,66 @@
 .property-state {
   position: relative;
   left: -2px;
+}
+
+// Smoke
+.smoke-value {
+  padding-left: 18px;
+}
+
+// Displacement
+.displacement-display {
+  margin-top: 90px;
+}
+
+// User
+.users-property-value {
+  padding-left: 116px;
+  padding-top: 28px;
+
+  h2 {
+    font-size: calc(var(--secondary-font-size) + 4px);
+  }
+}
+
+.users-property-state {
+  font-size: var(--secondary-font-size);
+  position: relative;
+  left: -28px;
+}
+
+// Others
+.others-property-display {
+  margin-top: 40px;
+}
+
+.operation-actions {
+  // padding-left: 720px;
+  display: flex;
+}
+
+.operation-actions-item {
+  color: var(--secondary-color);
+  font-size: 16px;
+  padding: 6px 8px;
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  background-color: #282828;
+
+  display: flex;
+  cursor: pointer;
+
+  .caret-down-icon {
+    padding-top: 4px;
+  }
+}
+
+.operation-actions-item-title {
+  margin-right: 4px;
+  min-width: 100px;
+}
+
+.start-operation-btn {
+  margin-top: 4px;
+  margin-left: 8px;
 }

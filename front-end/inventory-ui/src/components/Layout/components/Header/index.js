@@ -112,7 +112,7 @@ function Header() {
           </div>
           {/* More */}
           <div className="col-sm-1">
-            <Menu items={userMenu}>
+            <Menu items={userMenu} offset={[0, 0]}>
               <div className={cx("header-more")}>
                 <div className={cx("header-more-title")}>namt93</div>
                 <FontAwesomeIcon
