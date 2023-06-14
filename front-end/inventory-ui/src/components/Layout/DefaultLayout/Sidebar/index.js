@@ -16,14 +16,8 @@ function Sidebar({ sidebarColor = "var(--background-black-color)" }) {
     backgroundColor: `${sidebarColor}`,
   };
   return (
-    <aside className={cx("wrapper")}>
+    <aside className={cx("wrapper", "col-sm-2")}>
       <nav className={cx("sidebar")} style={sidbarStyle}>
-        {/* <h3 className={cx('sidebar__heading')}>
-                    <i className={cx('sidebar__heading-icon')}>
-                        <FontAwesomeIcon icon={faCloudSun} />
-                    </i>
-                    <div className={cx('name-app')}> Wanru</div>
-                </h3> */}
         <ul className={cx("sidebar-menu")}>
           <li
             className={cx("sidebar-item", {

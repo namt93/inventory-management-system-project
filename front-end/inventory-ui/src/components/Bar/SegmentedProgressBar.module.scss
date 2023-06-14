@@ -1,0 +1,16 @@
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.progressbar-item {
+    width: 100%;
+    padding-right: 4px;
+    justify-content: center;
+}
+
+.progressbar-state-title {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+}

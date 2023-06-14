@@ -2,7 +2,7 @@
   color: var(--secondary-color);
   background-color: var(--background-black-color);
   height: 1000px;
-
+  margin-top: var(--default-layout-header-height);
   .user-item {
     a {
       color: var(--secondary-color);
