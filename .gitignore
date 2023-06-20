@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # Ignore node_modules and its child directories
-.front-end/inventory-ui/node_modules/
+/front-end/inventory-ui/node_modules

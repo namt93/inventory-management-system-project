@@ -3,7 +3,12 @@
   color: var(--secondary-color);
   background-color: var(--background-black-color);
   margin-top: var(--default-layout-header-height);
-  height: 1000px;
+  height: 1400px;
+}
+
+// Rack Information
+.rack-information {
+  padding-top: 12px;
 }
 
 .status--title {
@@ -22,7 +27,7 @@
 .grid-item {
   height: 204px;
   width: 284px;
-  background-color: #201e1e;
+  background-color: var(--background-black-color-2);
   box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   margin: 4px 10px;
@@ -130,10 +135,37 @@
 
 .operation-actions-item-title {
   margin-right: 4px;
-  min-width: 100px;
+  min-width: 122px;
 }
 
 .start-operation-btn {
   margin-top: 4px;
   margin-left: 8px;
+}
+
+// Breakdown Status
+.breakdown-status-table {
+}
+
+.breakdown-status-chart {
+  margin-left: 64px;
+  height: 450px;
+  background-color: var(--background-black-color-2);
+  box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+}
+
+.breakdown-status--title {
+  font-size: var(--primary-font-size);
+  font-weight: 560;
+  padding-top: 24px;
+  padding-left: 20px;
+  margin-bottom: 4px;
+}
+
+.breakdown-doughnut-chart {
+  margin-left: 28px;
+  margin-top: 48px;
+  width: 320px;
+  height: 320px;
 }

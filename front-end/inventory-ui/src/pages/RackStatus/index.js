@@ -14,6 +14,8 @@ import {
   faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Chart as ChartJs, Tooltip, Title, ArcElement, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
 import classNames from "classnames/bind";
 import styles from "./RackStatus.module.scss";
@@ -31,8 +33,13 @@ const OPERATION_ACTIONS = [
   { title: "Ventilate" },
 ];
 
+// Reset default ChartJs
+ChartJs.defaults.color = "#e6edf3";
+
+ChartJs.register(Tooltip, Title, ArcElement, Legend);
+
 function RackStatus() {
-  const [envStatus, setEnvStatus] = useState([]);
+  const [status, setStatus] = useState([]);
   const [operationActionState, setOperationActionState] =
     useState("Open The Rack");
 
@@ -47,6 +54,114 @@ function RackStatus() {
   const smokeStopNumbers = [0.5, 3];
   const weightStopNumbers = [50, 99];
 
+  const rack = {
+    id: 1,
+    rack_name: "A100",
+    role: "master",
+    rack_group: 1,
+    user: 1,
+    created_at: "2023-05-26T06:06:09.982876Z",
+  };
+
+  const user = {
+    id: 1,
+    username: "admin",
+    first_name: "",
+    last_name: "",
+    date_joined: "2023-05-26T05:58:16Z",
+  };
+
+  const breakdownStatus = [
+    {
+      id: 1,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: false,
+      is_overload_motor: false,
+      created_at: "2023-05-29T11:51:22.773868Z",
+    },
+    {
+      id: 2,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: false,
+      is_overload_motor: null,
+      created_at: "2023-05-29T11:51:38.616072Z",
+    },
+    {
+      id: 3,
+      rack: 1,
+      is_obstructed: false,
+      is_skewed: true,
+      is_overload_motor: true,
+      created_at: "2023-06-20T09:42:32.424094Z",
+    },
+    {
+      id: 4,
+      rack: 1,
+      is_obstructed: false,
+      is_skewed: false,
+      is_overload_motor: true,
+      created_at: "2023-06-20T09:43:16.967121Z",
+    },
+    {
+      id: 5,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: false,
+      is_overload_motor: false,
+      created_at: "2023-06-20T09:43:31.863500Z",
+    },
+    {
+      id: 6,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: true,
+      is_overload_motor: false,
+      created_at: "2023-06-20T09:43:38.815377Z",
+    },
+    {
+      id: 7,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: false,
+      is_overload_motor: false,
+      created_at: "2023-06-20T09:44:36.212335Z",
+    },
+    {
+      id: 8,
+      rack: 1,
+      is_obstructed: false,
+      is_skewed: false,
+      is_overload_motor: true,
+      created_at: "2023-06-20T09:44:48.370736Z",
+    },
+    {
+      id: 9,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: false,
+      is_overload_motor: false,
+      created_at: "2023-06-20T09:45:00.141245Z",
+    },
+    {
+      id: 10,
+      rack: 1,
+      is_obstructed: true,
+      is_skewed: false,
+      is_overload_motor: false,
+      created_at: "2023-06-20T09:45:03.114599Z",
+    },
+  ];
+
+  const rackGroup = {
+    id: 1,
+    location: "Hust C9",
+    description: "ipac lab: tin hoc dai cuong",
+    user: 1,
+    created_at: "2023-05-26T06:05:37.677537Z",
+  };
+
   const calculateStateProperty = (value = 0, stopNumbers, states) => {
     var currentState = "";
     stopNumbers.map((stopNumber, index) => {
@@ -57,14 +172,20 @@ function RackStatus() {
     return currentState;
   };
 
-  // Get lastest environment status of rack
-  const getEnvStatus = async () => {
-    const result = await rackServices.getRackEnvStatus(rackID);
-    setEnvStatus(result.data);
+  // Get lastest environment, operation status of rack
+  const getStatus = async () => {
+    const response = await Promise.all([
+      rackServices.getRackEnvStatus(rackID),
+      rackServices.getRackLatestOperationStatus(rackID),
+    ]);
+
+    setStatus(response);
   };
 
-  const lastEnvStatus = envStatus[envStatus.length - 1];
+  const lastEnvStatus = status[0]?.data[status[0]?.data.length - 1];
+  const lastOperationStatus = status[1]?.data;
 
+  // define state of environment status properties
   const temperatureState = calculateStateProperty(
     lastEnvStatus?.temperature,
     tempStopNumbers,
@@ -89,10 +210,46 @@ function RackStatus() {
     propertyStates
   );
 
+  // Count faults of Breakdown Status
+  function countObstructedFaults(accumulator, currentValue) {
+    if (currentValue?.is_obstructed === true) {
+      return accumulator + 1;
+    }
+    return accumulator;
+  }
+
+  function countSkewedFaults(accumulator, currentValue) {
+    if (currentValue?.is_skewed === true) {
+      return accumulator + 1;
+    }
+    return accumulator;
+  }
+
+  function countOverloadMotorFaults(accumulator, currentValue) {
+    if (currentValue?.is_overload_motor === true) {
+      return accumulator + 1;
+    }
+    return accumulator;
+  }
+
+  var totalObstructedFaults = breakdownStatus.reduce(countObstructedFaults, 0);
+  var totalSkewedFaults = breakdownStatus.reduce(countSkewedFaults, 0);
+  var totalOverloadMotorFaults = breakdownStatus.reduce(
+    countOverloadMotorFaults,
+    0
+  );
+
+  var totalFaultsArray = [];
+  totalFaultsArray.push(
+    totalObstructedFaults,
+    totalSkewedFaults,
+    totalOverloadMotorFaults
+  );
+
   // Every 3s
   useEffect(() => {
     const timerId = setInterval(() => {
-      getEnvStatus();
+      getStatus();
     }, 3000);
 
     return () => {
@@ -228,18 +385,17 @@ function RackStatus() {
     );
   };
 
-  // lasted operation status of rack
-  const lastOperationStatus = {
-    movement_speed: 10,
-    displacement: 12,
-    number_users: 2,
-    is_hard_locked: false,
-    is_end_point: false,
-  };
-
+  //operation status of rack
   const speedStates = ["slow", "normal", "fast"];
 
   const speedStopNumbers = [3, 10, 16];
+
+  // define state of speed of operation status
+  const speedState = calculateStateProperty(
+    lastOperationStatus?.movement_speed,
+    speedStopNumbers,
+    speedStates
+  );
 
   const renderOperationStatus = () => {
     return (
@@ -294,7 +450,7 @@ function RackStatus() {
                     cm/s
                   </h2>
                   <div className={cx("property-state")}>
-                    {temperatureState ? temperatureState : "normal"}
+                    {speedState ? speedState : "normal"}
                   </div>
                 </div>
                 <div className={cx("property-display")}>
@@ -383,7 +539,7 @@ function RackStatus() {
                 <div className={cx("others-property-display")}>
                   <div className={cx("property-name")}>
                     <div className={cx("property-title")}>Hard Lock</div>
-                    {lastOperationStatus?.is_hard_locked ? (
+                    {!!lastOperationStatus?.is_hard_locked ? (
                       <i className={cx("property-icon")}>
                         <FontAwesomeIcon icon={faCheckCircle} />
                       </i>
@@ -395,7 +551,7 @@ function RackStatus() {
                   </div>
                   <div className={cx("property-name")}>
                     <div className={cx("property-title")}>Endpoint</div>
-                    {lastOperationStatus?.is_end_point ? (
+                    {!!lastOperationStatus?.is_endpoint ? (
                       <i className={cx("property-icon")}>
                         <FontAwesomeIcon icon={faCheckCircle} />
                       </i>
@@ -414,11 +570,143 @@ function RackStatus() {
     );
   };
 
+  const renderBreakdownStatusItems = () => {
+    return breakdownStatus.map((status) => {
+      return (
+        <tr className={cx("status-item")}>
+          <th scope="row">{status.id}</th>
+          <td>
+            {status?.is_obstructed ? status?.is_obstructed.toString() : ""}
+          </td>
+          <td>{status?.is_skewed ? status?.is_skewed.toString() : ""}</td>
+          <td>
+            {status?.is_overload_motor
+              ? status?.is_overload_motor.toString()
+              : ""}
+          </td>
+          <td>{status?.created_at}</td>
+        </tr>
+      );
+    });
+  };
+
+  const data = {
+    datasets: [
+      {
+        data: totalFaultsArray,
+        backgroundColor: ["limegreen", "gold", "orangered"],
+      },
+    ],
+    labels: ["Obstructed", "Skewed", "Overload Motor"],
+  };
+  const renderBreakdownStatus = () => {
+    return (
+      <div className={cx("operation-container")}>
+        <div className={cx("row")}>
+          <h2 className={cx("status--title", "col-sm-2")}>Breakdown Status</h2>
+          <div className={cx("status--title", "col-sm-2", "offset-sm-7")}>
+            <div className={cx("operation-actions")}>
+              <div>
+                <Menu
+                  items={OPERATION_ACTIONS}
+                  sizeList="size-list-small-2"
+                  onChange={setOperationActionState}
+                  offset={[-40, -202]}
+                >
+                  <button className={cx("operation-actions-item")}>
+                    <div className={cx("operation-actions-item-title")}>
+                      {operationActionState}
+                    </div>
+                    <FontAwesomeIcon
+                      icon={faCaretDown}
+                      className={cx("caret-down-icon")}
+                    />
+                  </button>
+                </Menu>
+              </div>
+              <div className={cx("start-operation-btn")}>
+                <Button to="/" secondary normal>
+                  Export
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={cx("row")}>
+          <div className={cx("display-record", "col-sm-7")}>
+            <table className={cx("table", "table-dark", "table-hover")}>
+              <thead>
+                <tr>
+                  <th scope="col">Rack ID</th>
+                  <th scope="col">Obstructed</th>
+                  <th scope="col">Skewed</th>
+                  <th scope="col">Overload Motor</th>
+                  <th scope="col">Time</th>
+                </tr>
+              </thead>
+              <tbody>{renderBreakdownStatusItems()}</tbody>
+            </table>
+          </div>
+          <div className={cx("breakdown-status-chart", "col-sm-3")}>
+            <h2 className={cx("breakdown-status--title")}>
+              Breakdown Statistics
+            </h2>
+            <div className={cx("breakdown-doughnut-chart")}>
+              <Doughnut data={data} />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={cx("wrapper")}>
-      <div>Rack ID: {rackID}</div>
+      <div className={cx("row")}>
+        <h2 className={cx("status--title", "col-sm-2")}>Rack Information</h2>
+        <div className={cx("status--title", "col-sm-2", "offset-sm-7")}>
+          <div className={cx("operation-actions")}>
+            <div className={cx("start-operation-btn")}>
+              <Button to="/" secondary normal>
+                Edit
+              </Button>
+            </div>
+            <div className={cx("start-operation-btn")}>
+              <Button to="/" third normal>
+                Delete
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className={cx("col-sm-10", "rack-information")}>
+          <div className={cx("card", "text-bg-dark")}>
+            <div className={cx("card-header", "rack-information-header")}>
+              <strong>{rack?.rack_name}</strong>
+            </div>
+            <div className={cx("card-body")}>
+              <h4 className={cx("card-title")}>
+                <strong>Role: </strong>
+                {rack?.role}
+              </h4>
+              <h4 className={cx("card-title")}>
+                <strong>Rack Group: </strong>
+                {rackGroup?.location} | {rackGroup?.description}
+              </h4>
+              <h4 className={cx("card-title")}>
+                <strong>Created by: </strong>
+                {user?.username}
+              </h4>
+              <h4 className={cx("card-title")}>
+                <strong>Created at: </strong>
+                {rack?.created_at}
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className={cx("row")}>{renderEnvStatus()}</div>
       <div className={cx("row")}>{renderOperationStatus()}</div>
+      <div className={cx("row")}>{renderBreakdownStatus()}</div>
     </div>
   );
 }

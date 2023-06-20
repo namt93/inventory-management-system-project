@@ -33,6 +33,24 @@
   }
 }
 
+.secondary {
+  color: var(--secondary-color);
+  background-color: var(--grey-color);
+
+  &:hover {
+    background-color: rgb(65, 71, 77);
+  }
+}
+
+.third {
+  color: var(--secondary-color);
+  background-color: var(--black-red-color);
+
+  &:hover {
+    background-color: rgb(148, 0, 0);
+  }
+}
+
 .rounded {
   border-radius: 999px;
   border-color: rgba(22, 24, 35, 0.2);

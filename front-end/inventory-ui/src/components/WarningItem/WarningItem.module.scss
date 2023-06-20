@@ -1,0 +1,25 @@
+.wrapper {
+  padding: 8px 24px;
+  color: var(--secondary-color);
+  font-size: var(--primary-font-size);
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(50, 50, 54, 0.8);
+  }
+  a {
+    color: var(--secondary-color);
+    display: block;
+    min-width: 100%;
+  }
+}
+.info {
+  flex: 1;
+}
+.name {
+  font-size: 1.6rem;
+  font-weight: 560;
+}
+.description {
+  font-size: 1.4rem;
+}
