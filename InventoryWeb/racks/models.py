@@ -16,6 +16,7 @@ class RackGroup(models.Model):
     description = models.CharField(max_length=100, blank=True)
     user = models.ForeignKey(User, related_name="rack_groups", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -32,6 +33,7 @@ class Rack(models.Model):
     rack_group = models.ForeignKey(RackGroup, related_name="racks", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
     
@@ -66,6 +68,7 @@ class BreakdownStatus(models.Model):
     is_skewed = models.BooleanField(null=True)
     is_overload_motor = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
 class Operation(models.Model):
@@ -83,6 +86,7 @@ class Document(models.Model):
     title = models.CharField(max_length=100, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -93,7 +97,7 @@ class Borrowing(models.Model):
     borrower = models.ForeignKey(User, related_name="borrowings",on_delete=models.CASCADE)
     document = models.ManyToManyField(Document)
     date_borrowed = models.DateTimeField(auto_now_add=True)
-    date_returned = models.DateTimeField(null=True, blank=True)
+    date_returned = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
     def __str__(self):

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.views import APIView
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from .serializers import RackGroupSerializer, RackSerializer, UserSerializer, DocumentSerializer, BorrowingSerializer, EnvironmentStatusSerializer, OperationStatusSerializer, BreakdownStatusSerializer
 from .models import RackGroup, Rack, User, Document, Borrowing, EnvironmentStatus, OperationStatus, BreakdownStatus
@@ -34,11 +34,11 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializer
 
-    def get_permissions(self):
-        if self.action == 'retrieve':
-            return [permissions.IsAuthenticated()]
+    # def get_permissions(self):
+    #     if self.action == 'retrieve':
+    #         return [permissions.IsAuthenticated()]
 
-        return [permissions.AllowAny()]
+    #     return [permissions.AllowAny()]
 
 class DocumentViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = Document.objects.all()
@@ -48,6 +48,20 @@ class BorrowingViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = Borrowing.objects.all()
     serializer_class = BorrowingSerializer
 
+
+#@action(methods=["get"], detail=True, 
+#        url_path="5-last", url_name="5-last")
+@api_view(('GET',))
+def get_5_last_env_status(request, rack_id):
+    try:
+        last_5_env_status = EnvironmentStatus.objects.filter(rack_id=rack_id).order_by('-id')[:5]
+        last_5_env_status_ascending_order = reversed(last_5_env_status)
+        serializer = EnvironmentStatusSerializer(last_5_env_status_ascending_order, many=True)
+    except EnvironmentStatus.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class EnvironmentStatusAPIView(APIView):
 
     # Get EnvironmentStatus by rack_id
@@ -56,6 +70,7 @@ class EnvironmentStatusAPIView(APIView):
         serializer = EnvironmentStatusSerializer(env_status, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
     # Post EnvironmentStatus
     def post(self, request, rack_id):
@@ -72,6 +87,17 @@ class EnvironmentStatusAPIView(APIView):
                 return Response(EnvironmentStatusSerializer(env_status).data, status=status.HTTP_201_CREATED)
         
         return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Get latest operation status of rack
+@api_view(('GET',))
+def get_latest_operation_status(request, rack_id):
+    try:
+        latest_operation_status = OperationStatus.objects.filter(rack_id=rack_id).order_by('-id')[:1][0]
+        serializer = OperationStatusSerializer(latest_operation_status)
+    except OperationStatus.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 class OperationStatusAPIView(APIView):
 
