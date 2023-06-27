@@ -27,8 +27,14 @@ import Menu from "~/components/Popper/Menu";
 
 const cx = classNames.bind(styles);
 
-const OPERATION_ACTIONS = [
+const OPERATION_ACTIONS_CLOSED_RACKS = [
   { title: "Open The Rack" },
+  { title: "Guide Light" },
+  { title: "Ventilate" },
+];
+
+const OPERATION_ACTIONS_OPENED_RACKS = [
+  { title: "Close The Rack" },
   { title: "Guide Light" },
   { title: "Ventilate" },
 ];
@@ -287,11 +293,7 @@ function RackStatus() {
                     lastEnvStatus?.temperature ? lastEnvStatus.temperature : 0
                   }
                   stopNumbers={tempStopNumbers}
-                  colors={[
-                    "rgb(0,150,1)",
-                    "rgb(210,210,0)",
-                    "rgb(200, 100, 20)",
-                  ]}
+                  colors={["green", "darkorange", "darkred"]}
                   states={tempStates}
                 />
               </div>
@@ -397,6 +399,36 @@ function RackStatus() {
     speedStates
   );
 
+  // displacement
+  const calculateDisplacementCompleted = (number = 0) => {
+    return (number / 64) * 100;
+  };
+
+  const displacementCompletedNumber = calculateDisplacementCompleted(
+    lastOperationStatus?.displacement
+  );
+
+  if (
+    lastOperationStatus?.displacement === 64 &&
+    operationActionState === "Open The Rack"
+  ) {
+    setOperationActionState("Close The Rack");
+  }
+  if (
+    lastOperationStatus?.displacement === 0 &&
+    operationActionState === "Close The Rack"
+  ) {
+    setOperationActionState("Open The Rack");
+  }
+
+  const OPERATION_ACTIONS =
+    operationActionState === "Open The Rack"
+      ? OPERATION_ACTIONS_CLOSED_RACKS
+      : OPERATION_ACTIONS_OPENED_RACKS;
+
+  // console.log("[OPERATION_ACTIONS]");
+  // console.log(OPERATION_ACTIONS);
+
   const renderOperationStatus = () => {
     return (
       <div className={cx("operation-container")}>
@@ -406,7 +438,11 @@ function RackStatus() {
             <div className={cx("operation-actions")}>
               <div>
                 <Menu
-                  items={OPERATION_ACTIONS}
+                  items={
+                    OPERATION_ACTIONS
+                      ? OPERATION_ACTIONS
+                      : OPERATION_ACTIONS_CLOSED_RACKS
+                  }
                   sizeList="size-list-small-2"
                   onChange={setOperationActionState}
                   offset={[-40, -202]}
@@ -489,15 +525,12 @@ function RackStatus() {
                       : 0}
                     cm
                   </h2>
-                  <div className={cx("property-state")}>
-                    {temperatureState ? temperatureState : "normal"}
-                  </div>
                 </div>
                 <div className={cx("displacement-display")}>
                   <ProgressBar
                     completed={
                       lastOperationStatus?.displacement
-                        ? lastOperationStatus.displacement
+                        ? displacementCompletedNumber
                         : 20
                     }
                   />
@@ -571,9 +604,9 @@ function RackStatus() {
   };
 
   const renderBreakdownStatusItems = () => {
-    return breakdownStatus.map((status) => {
+    return breakdownStatus.map((status, id) => {
       return (
-        <tr className={cx("status-item")}>
+        <tr key={id} className={cx("status-item")}>
           <th scope="row">{status.id}</th>
           <td>
             {status?.is_obstructed ? status?.is_obstructed.toString() : ""}
@@ -594,11 +627,12 @@ function RackStatus() {
     datasets: [
       {
         data: totalFaultsArray,
-        backgroundColor: ["limegreen", "gold", "orangered"],
+        backgroundColor: ["green", "darkorange", "darkred"],
       },
     ],
     labels: ["Obstructed", "Skewed", "Overload Motor"],
   };
+
   const renderBreakdownStatus = () => {
     return (
       <div className={cx("operation-container")}>
@@ -637,7 +671,7 @@ function RackStatus() {
             <table className={cx("table", "table-dark", "table-hover")}>
               <thead>
                 <tr>
-                  <th scope="col">Rack ID</th>
+                  <th scope="col">ID </th>
                   <th scope="col">Obstructed</th>
                   <th scope="col">Skewed</th>
                   <th scope="col">Overload Motor</th>

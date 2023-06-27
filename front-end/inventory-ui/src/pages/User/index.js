@@ -44,10 +44,10 @@ const USER_ITEMS = [
 
 function User() {
   const renderUserItems = () => {
-    return USER_ITEMS.map((user) => {
+    return USER_ITEMS.map((user, id) => {
       var hrefLinkItem = "/users/user/" + `${user.id}`;
       return (
-        <tr className={cx("user-item")}>
+        <tr key={id} className={cx("user-item")}>
           <th scope="row">
             <a href={hrefLinkItem}>{user.id}</a>
           </th>

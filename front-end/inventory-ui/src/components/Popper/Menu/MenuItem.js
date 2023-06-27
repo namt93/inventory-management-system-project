@@ -12,7 +12,7 @@ function MenuItem({ data = {}, onClick }) {
       to={data.to}
       onClick={onClick}
     >
-      {data.title}
+      {data?.title}
     </Button>
   );
 }

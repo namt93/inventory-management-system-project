@@ -81,11 +81,11 @@ const RACK_ITEMS = [
 
 function Rack() {
   const renderRackItems = () => {
-    return RACK_ITEMS.map((rack) => {
+    return RACK_ITEMS.map((rack, id) => {
       var hrefLinkItem = "racks/rack/" + `${rack.id}`;
       var hrefLinkGroup = "rack-groups/group/" + `${rack.rack_group}`;
       return (
-        <tr className={cx("rack-item")}>
+        <tr key={id} className={cx("rack-item")}>
           <th scope="row">
             <a href={hrefLinkItem}>{rack.id}</a>
           </th>

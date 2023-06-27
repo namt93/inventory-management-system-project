@@ -20,6 +20,10 @@ function Menu({
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
 
+  if (current.data != items) {
+    setHistory([{ data: items }]);
+  }
+
   const renderItem = () => {
     return current.data.map((item, index) => {
       const isParent = !!item.children;
@@ -31,8 +35,8 @@ function Menu({
             if (isParent) {
               setHistory((prev) => [...prev, item.children]);
             } else {
-              console.log(item.title);
-              onChange(item.title);
+              console.log(item?.title);
+              onChange(item?.title);
             }
           }}
         ></MenuItem>
