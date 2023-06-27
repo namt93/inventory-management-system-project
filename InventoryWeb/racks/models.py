@@ -75,6 +75,7 @@ class Operation(models.Model):
     rack = models.ForeignKey(Rack, related_name="operations", on_delete=models.CASCADE)
     guide_light = models.BooleanField(null=True)
     open_specific_rack = models.BooleanField(null=True)
+    close_specific_rack = models.BooleanField(null=True)
     ventilate = models.BooleanField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)

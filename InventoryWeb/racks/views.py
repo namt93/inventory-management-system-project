@@ -5,8 +5,10 @@ from rest_framework import viewsets, generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
-from .serializers import RackGroupSerializer, RackSerializer, UserSerializer, DocumentSerializer, BorrowingSerializer, EnvironmentStatusSerializer, OperationStatusSerializer, BreakdownStatusSerializer
-from .models import RackGroup, Rack, User, Document, Borrowing, EnvironmentStatus, OperationStatus, BreakdownStatus
+from .serializers import RackGroupSerializer, RackSerializer, UserSerializer, DocumentSerializer, BorrowingSerializer, EnvironmentStatusSerializer, OperationStatusSerializer, OperationSerializer, BreakdownStatusSerializer
+from .models import RackGroup, Rack, User, Document, Borrowing, EnvironmentStatus, OperationStatus, BreakdownStatus, Operation
+import serial
+from client import *
 
 def index(request):
     return HttpResponse("Racks app")
@@ -123,6 +125,60 @@ class OperationStatusAPIView(APIView):
                 return Response(OperationStatusSerializer(opr_status).data, status=status.HTTP_201_CREATED)
         
         return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Send operation message to IPC
+@api_view(('POST',))
+def post_guide_light_operation_message(request, rack_id):
+    rack = Rack.objects.get(pk=rack_id)
+    if not rack:
+        error_message = "Invalid rack credential"
+    else:
+        operation = Operation.objects.create(rack_id=rack_id, guide_light=True)
+        message = 'O|' + str(rack_id) + '|0'
+        my_client = Client()
+        my_client.send_message(message)
+        return Response(OperationSerializer(operation).data, status=status.HTTP_201_CREATED)
+    return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(('POST',))
+def post_open_specific_rack_operation_message(request, rack_id):
+    rack = Rack.objects.get(pk=rack_id)
+    if not rack:
+        error_message = "Invalid rack credential"
+    else:
+        operation = Operation.objects.create(rack_id=rack_id, open_specific_rack=True)
+        message = 'O|' + str(rack_id) + '|1'
+        my_client = Client()
+        my_client.send_message(message)
+        return Response(OperationSerializer(operation).data, status=status.HTTP_201_CREATED)
+    return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(('POST',))
+def post_close_specific_rack_operation_message(request, rack_id):
+    rack = Rack.objects.get(pk=rack_id)
+    if not rack:
+        error_message = "Invalid rack credential"
+    else:
+        operation = Operation.objects.create(rack_id=rack_id, close_specific_rack=True)
+        message = 'O|' + str(rack_id) + '|2'
+        my_client = Client()
+        my_client.send_message(message)
+        return Response(OperationSerializer(operation).data, status=status.HTTP_201_CREATED)
+    return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(('POST',))
+def post_ventilate_operation_message(request, rack_id):
+    rack = Rack.objects.get(pk=rack_id)
+    if not rack:
+        error_message = "Invalid rack credential"
+    else:
+        operation = Operation.objects.create(rack_id=rack_id, ventilate=True)
+        message = 'O|' + str(rack_id) + '|3'
+        my_client = Client()
+        my_client.send_message(message)
+        return Response(OperationSerializer(operation).data, status=status.HTTP_201_CREATED)
+    return Response(error_message, status=status.HTTP_400_BAD_REQUEST)
 
 class BreakdownStatusAPIView(APIView):
 

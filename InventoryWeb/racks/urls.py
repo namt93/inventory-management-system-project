@@ -17,6 +17,10 @@ urlpatterns = [
     path('api/racks/<int:rack_id>/opr-status/latest', views.get_latest_operation_status),
     path('api/racks/<int:rack_id>/opr-status', views.OperationStatusAPIView.as_view()),
     path('api/racks/<int:rack_id>/opr-status', views.OperationStatusAPIView.as_view()),
+    path('api/racks/<int:rack_id>/opreration/guide-light', views.post_guide_light_operation_message),
+    path('api/racks/<int:rack_id>/opreration/open-rack', views.post_open_specific_rack_operation_message),
+    path('api/racks/<int:rack_id>/opreration/close-rack', views.post_close_specific_rack_operation_message),
+    path('api/racks/<int:rack_id>/opreration/ventilate', views.post_ventilate_operation_message),
     path('api/racks/<int:rack_id>/brkdown-status', views.BreakdownStatusAPIView.as_view()),
     path('api/racks/<int:rack_id>/brkdown-status', views.BreakdownStatusAPIView.as_view()),
 ]

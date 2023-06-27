@@ -241,6 +241,12 @@ class OperationStatusSerializer(ModelSerializer):
         model = OperationStatus
         fields = ["id", "rack", "movement_speed", "displacement", "number_users", "is_hard_locked", "is_endpoint", "created_at"]
 
+class OperationSerializer(ModelSerializer):
+    class Meta:
+        model = Operation
+        fields = ["id", "rack", "guide_light", "open_specific_rack", "close_specific_rack", "ventilate", "created_at"]
+
+
 class BreakdownStatusSerializer(ModelSerializer):
     class Meta:
         model = BreakdownStatus
