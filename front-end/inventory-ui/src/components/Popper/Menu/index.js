@@ -35,7 +35,6 @@ function Menu({
             if (isParent) {
               setHistory((prev) => [...prev, item.children]);
             } else {
-              console.log(item?.title);
               onChange(item?.title);
             }
           }}

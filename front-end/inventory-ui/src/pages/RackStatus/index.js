@@ -252,11 +252,11 @@ function RackStatus() {
     totalOverloadMotorFaults
   );
 
-  // Every 3s
+  // Every 1s
   useEffect(() => {
     const timerId = setInterval(() => {
       getStatus();
-    }, 3000);
+    }, 500);
 
     return () => {
       clearInterval(timerId);
@@ -426,6 +426,21 @@ function RackStatus() {
       ? OPERATION_ACTIONS_CLOSED_RACKS
       : OPERATION_ACTIONS_OPENED_RACKS;
 
+  const startOperation = () => {
+    if (operationActionState === "Open The Rack") {
+      rackServices.postOpenRackOperationToIPC(rackID);
+    }
+    if (operationActionState === "Close The Rack") {
+      rackServices.postCloseRackOperationToIPC(rackID);
+    }
+    if (operationActionState === "Guide Light") {
+      rackServices.postGuideLightOperationToIPC(rackID);
+    }
+    if (operationActionState === "Ventilate") {
+      rackServices.postVentilateOperationToIPC(rackID);
+    }
+  };
+
   // console.log("[OPERATION_ACTIONS]");
   // console.log(OPERATION_ACTIONS);
 
@@ -459,7 +474,7 @@ function RackStatus() {
                 </Menu>
               </div>
               <div className={cx("start-operation-btn")}>
-                <Button to="/" primary normal>
+                <Button primary normal onClick={startOperation}>
                   Start
                 </Button>
               </div>
@@ -531,7 +546,7 @@ function RackStatus() {
                     completed={
                       lastOperationStatus?.displacement
                         ? displacementCompletedNumber
-                        : 20
+                        : 0
                     }
                   />
                 </div>

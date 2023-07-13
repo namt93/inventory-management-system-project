@@ -1,0 +1,31 @@
+.wrapper {
+  color: var(--secondary-color);
+  background-color: var(--background-black-color);
+  height: 1000px;
+  margin-top: var(--default-layout-header-height);
+  .document-item {
+    a {
+      color: var(--secondary-color);
+      // display: block;
+      min-width: 100%;
+    }
+  }
+}
+
+.page-title {
+  font-size: var(--secondary-font-size);
+  padding-left: 16px;
+}
+
+.add-document-btn {
+  margin-top: 16px;
+}
+
+.user-table {
+  padding: 24px;
+  font-size: var(--primary-font-size);
+}
+
+.user-item:hover {
+  cursor: pointer;
+}

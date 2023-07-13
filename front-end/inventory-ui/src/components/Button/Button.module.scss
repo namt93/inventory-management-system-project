@@ -42,6 +42,15 @@
   }
 }
 
+.secondaryunable {
+  color: var(--secondary-color);
+  background-color: rgb(65, 71, 77);
+
+  // &:hover {
+  //   background-color: rgb(65, 71, 77);
+  // }
+}
+
 .third {
   color: var(--secondary-color);
   background-color: var(--black-red-color);
