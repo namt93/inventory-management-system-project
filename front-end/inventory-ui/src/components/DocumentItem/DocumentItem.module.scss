@@ -3,9 +3,16 @@
   cursor: pointer;
 
   &:hover {
-    background-color: rgba(22, 24, 35, 0.1);
+    background-color: rgba(22, 24, 35, 0.7);
+  }
+
+  a {
+    color: var(--secondary-color);
+    display: block;
+    min-width: 100%;
   }
 }
+
 .info {
   flex: 1;
 }
@@ -13,6 +20,6 @@
   font-size: 1.6rem;
   font-weight: 560;
 }
-.author {
+.rack-id {
   font-size: 1.4rem;
 }

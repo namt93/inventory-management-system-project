@@ -3,11 +3,11 @@ import styles from "./RackItem.module.scss";
 
 const cx = classNames.bind(styles);
 
-function RackItem() {
+function RackItem({ data }) {
   return (
     <div className={cx("wrapper")}>
       <div className={cx("info")}>
-        <h4 className={cx("name")}>A100</h4>
+        <h4 className={cx("name")}>{data.rack_name}</h4>
         <span className={cx("description")}>Ipac Lab | Hust C9</span>
       </div>
     </div>

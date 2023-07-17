@@ -2,7 +2,6 @@ import styles from "./Header.module.scss";
 import classNames from "classnames/bind";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 
-import { useState } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,11 +13,9 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { faBell } from "@fortawesome/free-regular-svg-icons";
-import RackItem from "~/components/RackItem";
-import UserItem from "~/components/UserItem";
-import DocumentItem from "~/components/DocumentItem";
 import Menu from "~/components/Popper/Menu";
 import WarningItem from "~/components/WarningItem";
+import Search from "../Search";
 
 const cx = classNames.bind(styles);
 
@@ -50,13 +47,6 @@ const WARNING_MENU = [
 ];
 
 function Header() {
-  const [searchResult, setSearchResult] = useState([]);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setSearchResult([1, 2, 3]);
-  //   }, 0);
-  // });
   const userMenu = [
     {
       icon: <FontAwesomeIcon icon={faUser} />,
@@ -95,40 +85,7 @@ function Header() {
           {/* Search */}
           <div className="col-sm-6">
             <div className={cx("header-search")}>
-              <Tippy
-                interactive
-                // visible
-                visible={searchResult.length > 0}
-                render={(attrs) => (
-                  <div className={cx("search-result")} tabIndex="-1" {...attrs}>
-                    <PopperWrapper>
-                      <h4 className={cx("search-title")}>Racks</h4>
-                      <RackItem />
-                      <RackItem />
-                      <RackItem />
-                      <h4 className={cx("search-title")}>Users</h4>
-                      <UserItem />
-                      <UserItem />
-                      <UserItem />
-                      <h4 className={cx("search-title")}>Documents</h4>
-                      <DocumentItem />
-                      <DocumentItem />
-                      <DocumentItem />
-                    </PopperWrapper>
-                  </div>
-                )}
-              >
-                <input
-                  className={cx("input-search")}
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  spellCheck={false}
-                />
-              </Tippy>
-              <button className={cx("btn-search")} type="submit">
-                Search
-              </button>
+              <Search />
             </div>
           </div>
           <div className={"col-sm-1 offset-sm-1"}>
