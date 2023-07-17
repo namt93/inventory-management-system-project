@@ -40,6 +40,28 @@ export const getBorrowings = async () => {
   }
 };
 
+export const getSearchRacks = async (query, type = "less") => {
+  try {
+    const res = await smartInventoryRequest.get(`api/rack/search`, {
+      params: { query, type },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSearchDocuments = async (query, type = "less") => {
+  try {
+    const res = await smartInventoryRequest.get(`api/document/search`, {
+      params: { query, type },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const postGuideLightOperationToIPC = async (rackID) => {
   try {
     const res = await computerIPCRequest.post(

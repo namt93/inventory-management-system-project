@@ -5,9 +5,9 @@ from rest_framework import viewsets, generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
+from django.db.models import Q
 from .serializers import RackGroupSerializer, RackSerializer, UserSerializer, DocumentSerializer, BorrowingSerializer, EnvironmentStatusSerializer, OperationStatusSerializer, OperationSerializer, BreakdownStatusSerializer
 from .models import RackGroup, Rack, User, Document, Borrowing, EnvironmentStatus, OperationStatus, BreakdownStatus, Operation
-import serial
 from client import *
 
 def index(request):
@@ -28,9 +28,20 @@ class RackViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
             rack.active = False
             rack.save()
         except Rack.DoesNotExist:
-            return Response(status=status.HTTP_404_BAD_REQUEST)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(status=status.HTTP_200_OK)
+
+# action query rack
+@api_view(('GET',))
+def search_racks(request):
+    query = request.query_params.get('query', None)
+    query_racks = Rack.objects.filter(Q(rack_name__icontains=query))
+    if query_racks:
+        serializer = RackSerializer(query_racks, many=True)
+    else:
+        return Response([] , status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
@@ -45,6 +56,15 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView
 class DocumentViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = Document.objects.all()
     serializer_class = DocumentSerializer
+
+# action query document
+@api_view(('GET',))
+def search_documents(request):
+    query = request.query_params.get('query', None)
+    query_documents = Document.objects.filter(Q(title__icontains=query) | Q(author__icontains=query))
+    serializer = DocumentSerializer(query_documents, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 class BorrowingViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = Borrowing.objects.all()
