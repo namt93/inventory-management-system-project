@@ -224,7 +224,7 @@ class UserSerializer(ModelSerializer):
 class DocumentSerializer(ModelSerializer):
     class Meta:
         model = Document
-        fields = ["id", "manager", "author", "title", "published_at", "created_at"]
+        fields = ["id", "rack_id", "manager", "author", "title", "published_at", "created_at"]
 
 class BorrowingSerializer(ModelSerializer):
     class Meta:
@@ -234,12 +234,12 @@ class BorrowingSerializer(ModelSerializer):
 class EnvironmentStatusSerializer(ModelSerializer):
     class Meta:
         model = EnvironmentStatus
-        fields = ["id", "rack", "temperature", "humidity", "weight", "smoke", "created_at"]
+        fields = ["id", "rack_id", "temperature", "humidity", "weight", "smoke", "created_at"]
 
 class OperationStatusSerializer(ModelSerializer):
     class Meta:
         model = OperationStatus
-        fields = ["id", "rack", "movement_speed", "displacement", "number_users", "is_hard_locked", "is_endpoint", "created_at"]
+        fields = ["id", "rack_id", "movement_speed", "displacement", "number_users", "is_hard_locked", "is_endpoint", "created_at"]
 
 class OperationSerializer(ModelSerializer):
     class Meta:
@@ -250,4 +250,4 @@ class OperationSerializer(ModelSerializer):
 class BreakdownStatusSerializer(ModelSerializer):
     class Meta:
         model = BreakdownStatus
-        fields = ["id", "rack", "is_obstructed", "is_skewed", "is_overload_motor", "created_at"]
+        fields = ["id", "rack_id", "is_obstructed", "is_skewed", "is_overload_motor", "created_at"]

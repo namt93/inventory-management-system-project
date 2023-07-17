@@ -41,7 +41,8 @@ class Rack(models.Model):
         return self.rack_name
 
 class EnvironmentStatus(models.Model):
-    rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    # rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    rack_id = models.IntegerField(null=False)
     temperature = models.FloatField()
     humidity = models.FloatField()
     weight = models.FloatField()
@@ -53,7 +54,8 @@ class EnvironmentStatus(models.Model):
         return str(self.temperature) + ' | ' + str(self.humidity)
 
 class OperationStatus(models.Model):
-    rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    # rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    rack_id = models.IntegerField(null=False)
     movement_speed = models.FloatField()
     displacement = models.FloatField()
     number_users = models.IntegerField()
@@ -63,7 +65,8 @@ class OperationStatus(models.Model):
     active = models.BooleanField(default=True)
 
 class BreakdownStatus(models.Model):
-    rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    # rack = models.ForeignKey(Rack, on_delete=models.CASCADE)
+    rack_id = models.IntegerField(null=False)
     is_obstructed = models.BooleanField(null=True)
     is_skewed = models.BooleanField(null=True)
     is_overload_motor = models.BooleanField(null=True)
@@ -83,8 +86,8 @@ class Operation(models.Model):
 class Document(models.Model):
     rack = models.ForeignKey(Rack, related_name="documents", on_delete=models.CASCADE)
     manager = models.ForeignKey(User, on_delete=models.CASCADE)
-    author = models.CharField(max_length=50, null=True, blank=True)
-    title = models.CharField(max_length=100, blank=True)
+    author = models.CharField(max_length=200, null=True, blank=True)
+    title = models.CharField(max_length=200, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
