@@ -115,8 +115,11 @@ class EnvironmentStatusAPIView(APIView):
 @api_view(('GET',))
 def get_latest_operation_status(request, rack_id):
     try:
-        latest_operation_status = OperationStatus.objects.filter(rack_id=rack_id).order_by('-id')[:1][0]
-        serializer = OperationStatusSerializer(latest_operation_status)
+        if OperationStatus.objects.filter(rack_id=rack_id).order_by('-id')[:1]:
+            latest_operation_status = OperationStatus.objects.filter(rack_id=rack_id).order_by('-id')[:1][0]
+            serializer = OperationStatusSerializer(latest_operation_status)
+        else:
+            return Response([], status=status.HTTP_200_OK)
     except OperationStatus.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.data, status=status.HTTP_200_OK)
