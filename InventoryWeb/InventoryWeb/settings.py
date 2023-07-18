@@ -89,8 +89,8 @@ WSGI_APPLICATION = 'InventoryWeb.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'smartinventory',
-        'NAME': 'fakesmartinventory',
+        'NAME': 'smartinventory',
+        # 'NAME': 'fakesmartinventory',
         'USER': 'admin',
         'PASSWORD': 'password',
         'HOST': 'localhost',
