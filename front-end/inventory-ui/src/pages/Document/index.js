@@ -3,6 +3,7 @@ import styles from "./Document.module.scss";
 import Button from "~/components/Button";
 import * as rackServices from "~/apiServices/rackServices";
 import { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -58,34 +59,56 @@ const BORROWED_DOCUMENT_ITEMS = [
 
 function Document() {
   const [documentResponse, setDocumentResponse] = useState([]);
+  const [documentID, setDocumentID] = useState();
+  const params = useParams();
+  const location = useLocation();
 
-  const getDocuments = async () => {
-    const response = await Promise.all([
-      rackServices.getDocuments(),
-      rackServices.getBorrowings(),
-    ]);
-    setDocumentResponse(response);
+  if (documentID !== params.id) {
+    setDocumentID(params.id);
+  }
+  const documentQuery = location.state?.query;
+
+  const getDocuments = async (documentID) => {
+    if (!documentID) {
+      const response = await Promise.all([
+        rackServices.getDocuments(),
+        rackServices.getBorrowings(),
+        rackServices.getRacks(),
+      ]);
+      setDocumentResponse(response);
+    }
+    if (!!documentID && documentID !== "search") {
+      const response = await Promise.all([
+        rackServices.getDocumentByID(documentID),
+        rackServices.getBorrowings(),
+        rackServices.getRacks(),
+      ]);
+      setDocumentResponse(response);
+    } else if (!!documentQuery) {
+      const response = await Promise.all([
+        rackServices.getSearchDocuments(documentQuery),
+        rackServices.getBorrowings(),
+        rackServices.getRacks(),
+      ]);
+      setDocumentResponse(response);
+    }
   };
+  // console.log(documentResponse);
 
-  // Every 1s
+  // Whenever the deps change
   useEffect(() => {
-    const timerId = setInterval(() => {
-      getDocuments();
-    }, 1000);
-
-    return () => {
-      clearInterval(timerId);
-    };
-  }, []);
+    getDocuments(documentID);
+  }, [documentID, documentQuery]);
 
   const checkBorrowedDocument = (number) => {
     return documentResponse[1]?.some((borrowing, id) => {
       return borrowing?.document.includes(number);
     });
   };
+  const documentValue = documentResponse[0];
 
   const renderDocumentItems = () => {
-    return documentResponse[0]?.map((document, id) => {
+    return documentValue?.map((document, id) => {
       var hrefLinkItem = "/racks/rack/" + `${document.rack_id}`;
       return (
         <tr key={id} className={cx("document-item")}>
@@ -104,10 +127,32 @@ function Document() {
               </Button>
             )}
           </td>
-          <td>{document.rack_id}</td>
         </tr>
       );
     });
+  };
+
+  const renderDocumentItem = () => {
+    var hrefLinkItem = "/racks/rack/" + `${documentValue?.rack_id}`;
+    return (
+      <tr key={documentValue?.id} className={cx("document-item")}>
+        <th scope="row">{documentValue?.id}</th>
+        <td>{documentValue?.author}</td>
+        <td style={{ width: "40%" }}>{documentValue?.title}</td>
+        <td>{documentValue?.published_at}</td>
+        <td style={{ width: "9%" }}>
+          {checkBorrowedDocument(documentValue?.id) ? (
+            <Button href={hrefLinkItem} secondaryunable small disabled>
+              Borrowing
+            </Button>
+          ) : (
+            <Button href={hrefLinkItem} primary small>
+              Available
+            </Button>
+          )}
+        </td>
+      </tr>
+    );
   };
 
   return (
@@ -134,10 +179,13 @@ function Document() {
                 <th scope="col">Title</th>
                 <th scope="col">Published at</th>
                 <th scope="col">Status</th>
-                <th scope="col">Rack</th>
               </tr>
             </thead>
-            <tbody>{renderDocumentItems()}</tbody>
+            <tbody>
+              {!!documentID && documentID !== "search"
+                ? renderDocumentItem()
+                : renderDocumentItems()}
+            </tbody>
           </table>
         </div>
       </div>
