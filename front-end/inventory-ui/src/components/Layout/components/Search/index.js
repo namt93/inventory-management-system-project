@@ -3,11 +3,12 @@ import UserItem from "~/components/UserItem";
 import DocumentItem from "~/components/DocumentItem";
 import classNames from "classnames/bind";
 import styles from "./Search.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Tippy from "@tippyjs/react/headless";
 import { Wrapper as PopperWrapper } from "~/components/Popper";
 import * as rackServices from "~/apiServices/rackServices";
 import { useDebounce } from "~/hooks";
+import { useNavigate } from "react-router-dom";
 
 const cx = classNames.bind(styles);
 
@@ -82,15 +83,21 @@ function Search() {
   const [searchResult, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(true);
 
-  const debounced = useDebounce(searchValue, 500);
+  const searchBtnRef = useRef();
+  const inputRef = useRef();
+  const history = useNavigate();
+
+  const debounced = useDebounce(searchValue, 320);
 
   const getSearch = async (query) => {
-    const response = await Promise.all([
-      rackServices.getSearchDocuments(query),
-      rackServices.getSearchRacks(query),
-    ]);
+    if (!!query) {
+      const response = await Promise.all([
+        rackServices.getSearchDocuments(query),
+        rackServices.getSearchRacks(query),
+      ]);
 
-    setSearchResult(response);
+      setSearchResult(response);
+    }
   };
 
   useEffect(() => {
@@ -102,6 +109,20 @@ function Search() {
   }, [debounced]);
 
   const handleHideSearchResult = () => {
+    setShowResult(false);
+  };
+
+  const handleEnterSearch = () => {
+    searchBtnRef.current.focus();
+    handleSubmiSearch();
+  };
+
+  const handleSubmiSearch = () => {
+    history(`/documents/search`, {
+      state: {
+        query: inputRef.current?.value,
+      },
+    });
     setShowResult(false);
   };
 
@@ -119,19 +140,39 @@ function Search() {
             <PopperWrapper>
               <h4 className={cx("search-title")}>Racks</h4>
               {!!searchRacks && searchRacks.length > 0 ? (
-                searchRacks?.map((rack) => {
-                  return <RackItem key={rack.id} data={rack} />;
+                searchRacks?.map((rack, index) => {
+                  return (
+                    index < 6 && (
+                      <RackItem
+                        key={rack.id}
+                        data={rack}
+                        onClick={handleHideSearchResult}
+                      />
+                    )
+                  );
                 })
               ) : (
-                <h4 className={cx("search-empty")}>There is no rack</h4>
+                <h4 className={cx("search-empty")}>
+                  No racks match your search
+                </h4>
               )}
               <h4 className={cx("search-title")}>Documents</h4>
               {!!searchDocuments && searchDocuments.length > 0 ? (
-                searchDocuments?.map((document) => {
-                  return <DocumentItem key={document.id} data={document} />;
+                searchDocuments?.map((document, index) => {
+                  return (
+                    index < 4 && (
+                      <DocumentItem
+                        key={document.id}
+                        data={document}
+                        onClick={handleHideSearchResult}
+                      />
+                    )
+                  );
                 })
               ) : (
-                <h4 className={cx("search-empty")}>There is no document</h4>
+                <h4 className={cx("search-empty")}>
+                  No documents match your search
+                </h4>
               )}
             </PopperWrapper>
           </div>
@@ -139,6 +180,7 @@ function Search() {
         onClickOutside={handleHideSearchResult}
       >
         <input
+          ref={inputRef}
           className={cx("input-search")}
           type="search"
           placeholder="Search"
@@ -146,9 +188,19 @@ function Search() {
           spellCheck={false}
           onChange={(e) => setSearchValue(e.target.value)}
           onFocus={() => setShowResult(true)}
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              handleEnterSearch();
+            }
+          }}
         />
       </Tippy>
-      <button className={cx("btn-search")} type="submit">
+      <button
+        className={cx("btn-search")}
+        type="submit"
+        ref={searchBtnRef}
+        onClick={handleSubmiSearch}
+      >
         Search
       </button>
     </>

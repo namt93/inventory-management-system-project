@@ -11,7 +11,7 @@ const RACK_ITEMS = [
     role: "master",
     rack_group: 1,
     user: 1,
-    created_at: "2023-05-26T06:06:09.982876Z",
+    created_at: "2023-07-12T14:41:32.270409Z",
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const RACK_ITEMS = [
     role: "slave",
     rack_group: 1,
     user: 1,
-    created_at: "2023-05-26T06:06:27.559949Z",
+    created_at: "2023-07-12T14:41:32.271411Z",
   },
   {
     id: 3,
@@ -27,63 +27,39 @@ const RACK_ITEMS = [
     role: "slave",
     rack_group: 1,
     user: 1,
-    created_at: "2023-05-26T06:06:48.903991Z",
+    created_at: "2023-07-12T14:41:32.272410Z",
   },
   {
     id: 4,
-    rack_name: "B100",
-    role: "master",
-    rack_group: 2,
+    rack_name: "A103",
+    role: "slave",
+    rack_group: 1,
     user: 1,
-    created_at: "2023-05-27T09:05:04.577638Z",
+    created_at: "2023-07-18T14:34:29.748143Z",
   },
   {
     id: 5,
-    rack_name: "B101",
+    rack_name: "A104",
     role: "slave",
-    rack_group: 2,
+    rack_group: 1,
     user: 1,
-    created_at: "2023-05-29T00:57:31.360892Z",
+    created_at: "2023-07-18T14:34:42.237991Z",
   },
   {
     id: 6,
-    rack_name: "B102",
+    rack_name: "A105",
     role: "slave",
     rack_group: 1,
     user: 1,
-    created_at: "2023-05-29T01:40:46.078149Z",
-  },
-  {
-    id: 7,
-    rack_name: "B103",
-    role: "slave",
-    rack_group: 1,
-    user: 1,
-    created_at: "2023-05-29T01:55:46.700180Z",
-  },
-  {
-    id: 8,
-    rack_name: "B104",
-    role: "slave",
-    rack_group: 1,
-    user: 1,
-    created_at: "2023-05-29T02:20:52.652348Z",
-  },
-  {
-    id: 9,
-    rack_name: "B105",
-    role: "slave",
-    rack_group: 1,
-    user: 1,
-    created_at: "2023-05-29T03:06:14.609363Z",
+    created_at: "2023-07-18T14:35:02.582084Z",
   },
 ];
 
 function Rack() {
   const renderRackItems = () => {
     return RACK_ITEMS.map((rack, id) => {
-      var hrefLinkItem = "racks/rack/" + `${rack.id}`;
-      var hrefLinkGroup = "rack-groups/group/" + `${rack.rack_group}`;
+      var hrefLinkItem = `racks/rack/${rack.id}`;
+      var hrefLinkGroup = `rack-groups/group/${rack.rack_group}`;
       return (
         <tr key={id} className={cx("rack-item")}>
           <th scope="row">

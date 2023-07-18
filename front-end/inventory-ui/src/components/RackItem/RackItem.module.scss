@@ -5,6 +5,12 @@
   &:hover {
     background-color: rgba(22, 24, 35, 0.7);
   }
+
+  a {
+    color: var(--secondary-color);
+    display: block;
+    min-width: 100%;
+  }
 }
 .info {
   flex: 1;

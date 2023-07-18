@@ -1,15 +1,37 @@
 import classNames from "classnames/bind";
 import styles from "./RackItem.module.scss";
+import * as rackServices from "~/apiServices/rackServices";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const cx = classNames.bind(styles);
 
-function RackItem({ data }) {
+const defaultFunc = () => {};
+function RackItem({ data, onClick = defaultFunc }) {
+  const [rackGroupResponse, setRackGroupResponse] = useState();
+
+  const getRackGroupByID = async (rackGroupID) => {
+    const result = await rackServices.getRackGroupByID(rackGroupID);
+    setRackGroupResponse(result);
+    return result;
+  };
+
+  // rerender whenever data change
+  useEffect(() => {
+    getRackGroupByID(data.rack_group);
+  }, [data]);
+
   return (
     <div className={cx("wrapper")}>
-      <div className={cx("info")}>
-        <h4 className={cx("name")}>{data.rack_name}</h4>
-        <span className={cx("description")}>Ipac Lab | Hust C9</span>
-      </div>
+      <Link to={`/racks/rack/${data.id}`} onClick={onClick}>
+        <div className={cx("info")}>
+          <h4 className={cx("name")}>{data.rack_name}</h4>
+          <span className={cx("description")}>
+            {rackGroupResponse?.location} {"| "}{" "}
+            {rackGroupResponse?.description}{" "}
+          </span>
+        </div>
+      </Link>
     </div>
   );
 }

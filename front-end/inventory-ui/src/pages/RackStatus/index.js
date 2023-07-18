@@ -60,14 +60,14 @@ function RackStatus() {
   const smokeStopNumbers = [0.5, 3];
   const weightStopNumbers = [50, 99];
 
-  const rack = {
-    id: 1,
-    rack_name: "A100",
-    role: "master",
-    rack_group: 1,
-    user: 1,
-    created_at: "2023-05-26T06:06:09.982876Z",
-  };
+  // const rack = {
+  //   id: 1,
+  //   rack_name: "A100",
+  //   role: "master",
+  //   rack_group: 1,
+  //   user: 1,
+  //   created_at: "2023-05-26T06:06:09.982876Z",
+  // };
 
   const user = {
     id: 1,
@@ -77,88 +77,88 @@ function RackStatus() {
     date_joined: "2023-05-26T05:58:16Z",
   };
 
-  const breakdownStatus = [
-    {
-      id: 1,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: false,
-      is_overload_motor: false,
-      created_at: "2023-05-29T11:51:22.773868Z",
-    },
-    {
-      id: 2,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: false,
-      is_overload_motor: null,
-      created_at: "2023-05-29T11:51:38.616072Z",
-    },
-    {
-      id: 3,
-      rack: 1,
-      is_obstructed: false,
-      is_skewed: true,
-      is_overload_motor: true,
-      created_at: "2023-06-20T09:42:32.424094Z",
-    },
-    {
-      id: 4,
-      rack: 1,
-      is_obstructed: false,
-      is_skewed: false,
-      is_overload_motor: true,
-      created_at: "2023-06-20T09:43:16.967121Z",
-    },
-    {
-      id: 5,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: false,
-      is_overload_motor: false,
-      created_at: "2023-06-20T09:43:31.863500Z",
-    },
-    {
-      id: 6,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: true,
-      is_overload_motor: false,
-      created_at: "2023-06-20T09:43:38.815377Z",
-    },
-    {
-      id: 7,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: false,
-      is_overload_motor: false,
-      created_at: "2023-06-20T09:44:36.212335Z",
-    },
-    {
-      id: 8,
-      rack: 1,
-      is_obstructed: false,
-      is_skewed: false,
-      is_overload_motor: true,
-      created_at: "2023-06-20T09:44:48.370736Z",
-    },
-    {
-      id: 9,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: false,
-      is_overload_motor: false,
-      created_at: "2023-06-20T09:45:00.141245Z",
-    },
-    {
-      id: 10,
-      rack: 1,
-      is_obstructed: true,
-      is_skewed: false,
-      is_overload_motor: false,
-      created_at: "2023-06-20T09:45:03.114599Z",
-    },
-  ];
+  // const breakdownStatus = [
+  //   {
+  //     id: 1,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: false,
+  //     is_overload_motor: false,
+  //     created_at: "2023-05-29T11:51:22.773868Z",
+  //   },
+  //   {
+  //     id: 2,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: false,
+  //     is_overload_motor: null,
+  //     created_at: "2023-05-29T11:51:38.616072Z",
+  //   },
+  //   {
+  //     id: 3,
+  //     rack: 1,
+  //     is_obstructed: false,
+  //     is_skewed: true,
+  //     is_overload_motor: true,
+  //     created_at: "2023-06-20T09:42:32.424094Z",
+  //   },
+  //   {
+  //     id: 4,
+  //     rack: 1,
+  //     is_obstructed: false,
+  //     is_skewed: false,
+  //     is_overload_motor: true,
+  //     created_at: "2023-06-20T09:43:16.967121Z",
+  //   },
+  //   {
+  //     id: 5,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: false,
+  //     is_overload_motor: false,
+  //     created_at: "2023-06-20T09:43:31.863500Z",
+  //   },
+  //   {
+  //     id: 6,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: true,
+  //     is_overload_motor: false,
+  //     created_at: "2023-06-20T09:43:38.815377Z",
+  //   },
+  //   {
+  //     id: 7,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: false,
+  //     is_overload_motor: false,
+  //     created_at: "2023-06-20T09:44:36.212335Z",
+  //   },
+  //   {
+  //     id: 8,
+  //     rack: 1,
+  //     is_obstructed: false,
+  //     is_skewed: false,
+  //     is_overload_motor: true,
+  //     created_at: "2023-06-20T09:44:48.370736Z",
+  //   },
+  //   {
+  //     id: 9,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: false,
+  //     is_overload_motor: false,
+  //     created_at: "2023-06-20T09:45:00.141245Z",
+  //   },
+  //   {
+  //     id: 10,
+  //     rack: 1,
+  //     is_obstructed: true,
+  //     is_skewed: false,
+  //     is_overload_motor: false,
+  //     created_at: "2023-06-20T09:45:03.114599Z",
+  //   },
+  // ];
 
   const rackGroup = {
     id: 1,
@@ -181,15 +181,19 @@ function RackStatus() {
   // Get lastest environment, operation status of rack
   const getStatus = async () => {
     const response = await Promise.all([
+      rackServices.getRackByID(rackID),
       rackServices.getRackEnvStatus(rackID),
       rackServices.getRackLatestOperationStatus(rackID),
+      rackServices.getRackBreakdownStatus(rackID),
     ]);
 
     setStatus(response);
   };
 
-  const lastEnvStatus = status[0]?.data[status[0]?.data.length - 1];
-  const lastOperationStatus = status[1]?.data;
+  const rack = status[0];
+  const lastEnvStatus = status[1]?.data[status[1]?.data.length - 1];
+  const lastOperationStatus = status[2]?.data;
+  const breakdownStatus = status[3]?.data;
 
   // define state of environment status properties
   const temperatureState = calculateStateProperty(
@@ -238,9 +242,9 @@ function RackStatus() {
     return accumulator;
   }
 
-  var totalObstructedFaults = breakdownStatus.reduce(countObstructedFaults, 0);
-  var totalSkewedFaults = breakdownStatus.reduce(countSkewedFaults, 0);
-  var totalOverloadMotorFaults = breakdownStatus.reduce(
+  var totalObstructedFaults = breakdownStatus?.reduce(countObstructedFaults, 0);
+  var totalSkewedFaults = breakdownStatus?.reduce(countSkewedFaults, 0);
+  var totalOverloadMotorFaults = breakdownStatus?.reduce(
     countOverloadMotorFaults,
     0
   );
@@ -619,7 +623,7 @@ function RackStatus() {
   };
 
   const renderBreakdownStatusItems = () => {
-    return breakdownStatus.map((status, id) => {
+    return breakdownStatus?.map((status, id) => {
       return (
         <tr key={id} className={cx("status-item")}>
           <th scope="row">{status.id}</th>
@@ -673,7 +677,7 @@ function RackStatus() {
                   </button>
                 </Menu>
               </div>
-              <div className={cx("start-operation-btn")}>
+              <div className={cx("export-operation-btn")}>
                 <Button to="/" secondary normal>
                   Export
                 </Button>

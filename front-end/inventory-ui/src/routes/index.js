@@ -9,6 +9,8 @@ const publicRoutes = [
   { path: "/", component: Rack },
   { path: "/racks/rack/:id", component: RackStatus },
   { path: "/documents", component: Document },
+  { path: "/documents/search?query=:query", component: Document },
+  { path: "/documents/:id", component: Document },
   { path: "/users", component: User },
   { path: "/setting", component: Setting },
   { path: "/login", component: Login, layout: null },
