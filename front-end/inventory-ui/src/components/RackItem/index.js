@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const cx = classNames.bind(styles);
 
 const defaultFunc = () => {};
-function RackItem({ data, onClick = defaultFunc }) {
+function RackItem({ data, onClick = defaultFunc, to, href, ...passProps }) {
   const [rackGroupResponse, setRackGroupResponse] = useState();
 
   const getRackGroupByID = async (rackGroupID) => {
@@ -16,6 +16,19 @@ function RackItem({ data, onClick = defaultFunc }) {
     return result;
   };
 
+  let Component = "div";
+
+  const props = {
+    ...passProps,
+  };
+
+  if (to) {
+    props.to = to;
+    Component = Link;
+  } else if (href) {
+    props.href = href;
+    Component = "a";
+  }
   // rerender whenever data change
   useEffect(() => {
     getRackGroupByID(data.rack_group);
@@ -23,7 +36,12 @@ function RackItem({ data, onClick = defaultFunc }) {
 
   return (
     <div className={cx("wrapper")}>
-      <Link to={`/racks/rack/${data.id}`} onClick={onClick}>
+      <Component
+        onClick={() => {
+          onClick(data?.rack_name);
+        }}
+        {...props}
+      >
         <div className={cx("info")}>
           <h4 className={cx("name")}>{data.rack_name}</h4>
           <span className={cx("description")}>
@@ -31,7 +49,7 @@ function RackItem({ data, onClick = defaultFunc }) {
             {rackGroupResponse?.description}{" "}
           </span>
         </div>
-      </Link>
+      </Component>
     </div>
   );
 }

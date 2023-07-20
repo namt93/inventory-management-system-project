@@ -1,5 +1,5 @@
 .wrapper {
-  padding: 9px 16px;
+  padding: 9px 20px;
   cursor: pointer;
 
   &:hover {
@@ -9,10 +9,12 @@
 .info {
   flex: 1;
 }
+
 .name {
   font-size: 1.6rem;
   font-weight: 560;
 }
+
 .description {
   font-size: 1.4rem;
 }
