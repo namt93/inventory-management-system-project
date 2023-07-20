@@ -12,6 +12,10 @@ const defaultFunc = () => {};
 
 function Menu({
   children,
+  className,
+  small = false,
+  normal = false,
+  large = false,
   items = [],
   offset = [0, 0],
   trigger = "mouseenter",
@@ -19,6 +23,13 @@ function Menu({
 }) {
   const [history, setHistory] = useState([{ data: items }]);
   const current = history[history.length - 1];
+
+  const classes = cx("menu-list", {
+    [className]: className,
+    small,
+    normal,
+    large,
+  });
 
   if (current.data != items) {
     setHistory([{ data: items }]);
@@ -46,11 +57,12 @@ function Menu({
   return (
     <Tippy
       interactive
+      // visible
       offset={offset}
       trigger={trigger}
       // delay={[0, 200]}
       render={(attrs) => (
-        <div className={cx("menu-list")} tabIndex="-1" {...attrs}>
+        <div className={classes} tabIndex="-1" {...attrs}>
           <PopperWrapper className={cx("menu-popper")}>
             {renderItem()}
           </PopperWrapper>
