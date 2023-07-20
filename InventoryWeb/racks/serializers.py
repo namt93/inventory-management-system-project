@@ -224,7 +224,7 @@ class UserSerializer(ModelSerializer):
 class DocumentSerializer(ModelSerializer):
     class Meta:
         model = Document
-        fields = ["id", "rack_id", "manager", "author", "title", "published_at", "created_at"]
+        fields = ["id", "rack", "manager", "author", "title", "published_at", "created_at"]
 
 class BorrowingSerializer(ModelSerializer):
     class Meta:

@@ -17,6 +17,31 @@ class RackGroupViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = RackGroup.objects.all()
     serializer_class = RackGroupSerializer
 
+# action query rack group by location or description
+@api_view(('GET',))
+def search_rack_groups(request):
+    query = request.query_params.get('query', None)
+    query_rack_groups = RackGroup.objects.filter(Q(location__icontains=query) | Q(description__icontains=query))
+    if query_rack_groups:
+        serializer = RackGroupSerializer(query_rack_groups, many=True)
+    else:
+        return Response([] , status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+# action get rack group by location and description
+@api_view(('GET',))
+def get_rack_group_by_location_and_description(request):
+    location = request.query_params.get('location', None)
+    description = request.query_params.get('description', None)
+    query_rack_groups = RackGroup.objects.filter(Q(location__icontains=location) & Q(description__icontains=description))
+    if query_rack_groups:
+        serializer = RackGroupSerializer(query_rack_groups, many=True)
+    else:
+        return Response([] , status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
 class RackViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = Rack.objects.filter(active=True)
     serializer_class = RackSerializer
@@ -32,7 +57,7 @@ class RackViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
 
         return Response(status=status.HTTP_200_OK)
 
-# action query rack
+# action query rack by rack_name
 @api_view(('GET',))
 def search_racks(request):
     query = request.query_params.get('query', None)
@@ -52,6 +77,18 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView
     #         return [permissions.IsAuthenticated()]
 
     #     return [permissions.AllowAny()]
+
+# action query user by username
+@api_view(('GET',))
+def search_users(request):
+    query = request.query_params.get('query', None)
+    query_users = User.objects.filter(Q(username__icontains=query))
+    if query_users:
+        serializer = UserSerializer(query_users, many=True)
+    else:
+        return Response([] , status=status.HTTP_200_OK)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class DocumentViewSet(viewsets.ModelViewSet, generics.CreateAPIView):
     queryset = Document.objects.all()

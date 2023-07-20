@@ -25,4 +25,7 @@ urlpatterns = [
     path('api/racks/<int:rack_id>/brkdown-status', views.BreakdownStatusAPIView.as_view()),
     path('api/document/search', views.search_documents),
     path('api/rack/search', views.search_racks),
+    path('api/rack-group/search', views.search_rack_groups),
+    path('api/rack-group/get', views.get_rack_group_by_location_and_description),
+    path('api/user/search', views.search_users),
 ]
