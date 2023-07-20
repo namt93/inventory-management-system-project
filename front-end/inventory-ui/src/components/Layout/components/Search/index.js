@@ -1,5 +1,4 @@
 import RackItem from "~/components/RackItem";
-import UserItem from "~/components/UserItem";
 import DocumentItem from "~/components/DocumentItem";
 import classNames from "classnames/bind";
 import styles from "./Search.module.scss";
@@ -146,6 +145,7 @@ function Search() {
                       <RackItem
                         key={rack.id}
                         data={rack}
+                        to={`/racks/rack/${rack.id}`}
                         onClick={handleHideSearchResult}
                       />
                     )
