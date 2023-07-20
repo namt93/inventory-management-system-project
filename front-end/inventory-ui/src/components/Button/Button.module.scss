@@ -60,6 +60,15 @@
   }
 }
 
+.forthblue {
+  color: var(--secondary-color);
+  background-color: rgb(30, 30, 168);
+
+  &:hover {
+    background-color: rgba(30, 30, 168, 0.8);
+  }
+}
+
 .rounded {
   border-radius: 999px;
   border-color: rgba(22, 24, 35, 0.2);

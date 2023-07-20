@@ -1,0 +1,96 @@
+.wrapper {
+  color: var(--secondary-color);
+  background-color: var(--background-black-color);
+  height: 1000px;
+  margin-top: var(--default-layout-header-height);
+  padding-right: 120px;
+}
+
+.page-title {
+  font-size: var(--secondary-font-size);
+}
+
+.rack-config {
+  font-size: var(--primary-font-size);
+  padding: 20px;
+  border-bottom: 1px solid rgb(30, 30, 168);
+}
+
+.rack-config-input {
+  width: 100%;
+  color: #e4e6eb;
+  background-color: #282828;
+  padding: 0.3rem 0.75rem;
+  font-size: 2rem;
+  border-radius: 0.375rem;
+}
+
+.manager-config {
+  font-size: var(--primary-font-size);
+  padding: 20px;
+  border-bottom: 1px solid rgb(30, 30, 168);
+
+  input {
+    width: 100%;
+    color: #e4e6eb;
+    background-color: #282828;
+    padding: 0.3rem 0.75rem;
+    font-size: 2rem;
+    border-radius: 0.375rem;
+  }
+}
+
+.rack-name-config {
+  font-size: var(--primary-font-size);
+  padding: 20px;
+  border-bottom: 1px solid rgb(30, 30, 168);
+
+  input {
+    width: 100%;
+    color: #e4e6eb;
+    background-color: #282828;
+    padding: 0.3rem 0.75rem;
+    font-size: 2rem;
+    border-radius: 0.375rem;
+  }
+}
+
+.password-config {
+  font-size: var(--primary-font-size);
+  padding: 20px;
+  border-bottom: 1px solid rgb(30, 30, 168);
+
+  input {
+    width: 100%;
+    color: #e4e6eb;
+    background-color: #282828;
+    padding: 0.3rem 0.75rem;
+    font-size: 2rem;
+    border-radius: 0.375rem;
+  }
+}
+
+.role-config {
+  font-size: var(--primary-font-size);
+  padding: 20px;
+  border-bottom: 1px solid rgb(30, 30, 168);
+
+  input {
+    width: 100%;
+    color: #e4e6eb;
+    background-color: #282828;
+    padding: 0.3rem 0.75rem;
+    font-size: 2rem;
+    border-radius: 0.375rem;
+    margin: 4px;
+  }
+}
+
+.operation-actions {
+  // padding-left: 720px;
+  display: flex;
+}
+
+.save-btn {
+  padding-top: 20px;
+}
