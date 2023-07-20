@@ -1,6 +1,8 @@
 import classNames from "classnames/bind";
 import styles from "./User.module.scss";
 import Button from "~/components/Button";
+import * as rackServices from "~/apiServices/rackServices";
+import { useEffect, useState } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -43,9 +45,21 @@ const USER_ITEMS = [
 ];
 
 function User() {
+  const [userItems, setUserItems] = useState([]);
+
+  const getUsers = async () => {
+    const response = await rackServices.getUsers();
+    setUserItems(response);
+  };
+
+  // Run the first render
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   const renderUserItems = () => {
-    return USER_ITEMS.map((user, id) => {
-      var hrefLinkItem = "/users/user/" + `${user.id}`;
+    return userItems?.map((user, id) => {
+      var hrefLinkItem = `/users/user/${user.id}`;
       return (
         <tr key={id} className={cx("user-item")}>
           <th scope="row">
