@@ -33,10 +33,28 @@ export const getRackBreakdownStatus = async (rackID) => {
   }
 };
 
+export const getUsers = async () => {
+  try {
+    const res = await smartInventoryRequest.get(`api/users/`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getDocuments = async () => {
   try {
     const res = await smartInventoryRequest.get(`api/documents/`);
     return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const postDocuments = async (data) => {
+  try {
+    const res = await smartInventoryRequest.post(`api/documents/`, data);
+    return res;
   } catch (error) {
     console.log(error);
   }
@@ -51,9 +69,29 @@ export const getRacks = async () => {
   }
 };
 
+export const postRacks = async (data) => {
+  try {
+    const res = await smartInventoryRequest.post(`api/racks/`, data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getBorrowings = async () => {
   try {
     const res = await smartInventoryRequest.get(`api/borrowings/`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSearchUsers = async (query, type = "less") => {
+  try {
+    const res = await smartInventoryRequest.get(`api/user/search`, {
+      params: { query, type },
+    });
     return res.data;
   } catch (error) {
     console.log(error);
@@ -64,6 +102,32 @@ export const getSearchRacks = async (query, type = "less") => {
   try {
     const res = await smartInventoryRequest.get(`api/rack/search`, {
       params: { query, type },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSearchRackGroups = async (query, type = "less") => {
+  try {
+    const res = await smartInventoryRequest.get(`api/rack-group/search`, {
+      params: { query, type },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getRackGroupByLocationDescription = async (
+  location,
+  description,
+  type = "less"
+) => {
+  try {
+    const res = await smartInventoryRequest.get(`api/rack-group/get`, {
+      params: { location, description, type },
     });
     return res.data;
   } catch (error) {
