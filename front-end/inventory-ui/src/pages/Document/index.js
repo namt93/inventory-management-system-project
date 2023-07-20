@@ -108,28 +108,31 @@ function Document() {
   const documentValue = documentResponse[0];
 
   const renderDocumentItems = () => {
-    return documentValue?.map((document, id) => {
-      var hrefLinkItem = "/racks/rack/" + `${document.rack_id}`;
-      return (
-        <tr key={id} className={cx("document-item")}>
-          <th scope="row">{document.id}</th>
-          <td>{document.author}</td>
-          <td style={{ width: "40%" }}>{document.title}</td>
-          <td>{document.published_at}</td>
-          <td style={{ width: "9%" }}>
-            {checkBorrowedDocument(document.id) ? (
-              <Button href={hrefLinkItem} secondaryunable small disabled>
-                Borrowing
-              </Button>
-            ) : (
-              <Button href={hrefLinkItem} primary small>
-                Available
-              </Button>
-            )}
-          </td>
-        </tr>
-      );
-    });
+    return (
+      documentValue?.length > 0 &&
+      documentValue?.map((document, id) => {
+        var hrefLinkItem = "/racks/rack/" + `${document.rack}`;
+        return (
+          <tr key={id} className={cx("document-item")}>
+            <th scope="row">{document.id}</th>
+            <td>{document.author}</td>
+            <td style={{ width: "40%" }}>{document.title}</td>
+            <td>{document.published_at}</td>
+            <td style={{ width: "9%" }}>
+              {checkBorrowedDocument(document.id) ? (
+                <Button href={hrefLinkItem} secondaryunable small disabled>
+                  Borrowing
+                </Button>
+              ) : (
+                <Button href={hrefLinkItem} primary small>
+                  Available
+                </Button>
+              )}
+            </td>
+          </tr>
+        );
+      })
+    );
   };
 
   const renderDocumentItem = () => {
@@ -163,7 +166,7 @@ function Document() {
         </div>
         <div className={cx("col-sm-2", "offset-sm-9")}>
           <div className={cx("add-document-btn")}>
-            <Button to="/documents/document/add" primary large>
+            <Button to="/add-document" primary large>
               Add document
             </Button>
           </div>
@@ -182,9 +185,9 @@ function Document() {
               </tr>
             </thead>
             <tbody>
-              {!!documentID && documentID !== "search"
-                ? renderDocumentItem()
-                : renderDocumentItems()}
+              {!documentID | (documentID === "search")
+                ? renderDocumentItems()
+                : renderDocumentItem()}
             </tbody>
           </table>
         </div>
