@@ -4,7 +4,7 @@ import Button from "~/components/Button";
 import Pagination from "~/components/Pagination";
 import * as rackServices from "~/apiServices/rackServices";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const cx = classNames.bind(styles);
 
@@ -281,12 +281,15 @@ function Rack() {
     setRackResponse(response);
   };
 
-  getRacks();
+  // Run the first time
+  useEffect(() => {
+    getRacks();
+  }, []);
 
   const getRenderRacks = (page, limit) => {
     let array = [];
     for (let i = (page - 1) * limit; i < page * limit; i++) {
-      if (i < rackResponse.length) {
+      if (i < rackResponse?.length) {
         array.push(rackResponse[i]);
       }
     }
