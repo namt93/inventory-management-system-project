@@ -1,5 +1,6 @@
 import classNames from "classnames/bind";
 import styles from "./Document.module.scss";
+import Pagination from "~/components/Pagination";
 import Button from "~/components/Button";
 import * as rackServices from "~/apiServices/rackServices";
 import { useState, useEffect } from "react";
@@ -63,6 +64,32 @@ function Document() {
   const params = useParams();
   const location = useLocation();
 
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  let totalPage = 1;
+  if (!!documentResponse && documentResponse.length > 2) {
+    totalPage = Math.ceil(documentResponse[0].length / limit);
+  }
+
+  const handlePageChange = (value) => {
+    if (value === "&laquo;" || value === "... ") {
+      setPage(1);
+    } else if (value === "&lsaquo;") {
+      if (page !== 1) {
+        setPage(page - 1);
+      }
+    } else if (value === "&rsaquo;") {
+      if (page !== totalPage) {
+        setPage(page + 1);
+      }
+    } else if (value === "&raquo;" || value === " ...") {
+      setPage(totalPage);
+    } else {
+      setPage(value);
+    }
+  };
+
   if (documentID !== params.id) {
     setDocumentID(params.id);
   }
@@ -93,7 +120,6 @@ function Document() {
       setDocumentResponse(response);
     }
   };
-  // console.log(documentResponse);
 
   // Whenever the deps change
   useEffect(() => {
@@ -107,19 +133,30 @@ function Document() {
   };
   const documentValue = documentResponse[0];
 
-  const renderDocumentItems = () => {
+  const getRenderDocuments = (page, limit) => {
+    let array = [];
+    for (let i = (page - 1) * limit; i < page * limit; i++) {
+      if (i < documentValue?.length) {
+        array.push(documentValue[i]);
+      }
+    }
+
+    return array;
+  };
+
+  const renderDocumentItems = (documentValue) => {
     return (
       documentValue?.length > 0 &&
       documentValue?.map((document, id) => {
-        var hrefLinkItem = "/racks/rack/" + `${document.rack}`;
+        var hrefLinkItem = "/racks/rack/" + `${document?.rack}`;
         return (
           <tr key={id} className={cx("document-item")}>
-            <th scope="row">{document.id}</th>
-            <td>{document.author}</td>
-            <td style={{ width: "40%" }}>{document.title}</td>
-            <td>{document.published_at}</td>
+            <th scope="row">{document?.id}</th>
+            <td>{document?.author}</td>
+            <td style={{ width: "40%" }}>{document?.title}</td>
+            <td>{document?.published_at}</td>
             <td style={{ width: "9%" }}>
-              {checkBorrowedDocument(document.id) ? (
+              {checkBorrowedDocument(document?.id) ? (
                 <Button href={hrefLinkItem} secondaryunable small disabled>
                   Borrowing
                 </Button>
@@ -186,10 +223,21 @@ function Document() {
             </thead>
             <tbody>
               {!documentID | (documentID === "search")
-                ? renderDocumentItems()
+                ? renderDocumentItems(getRenderDocuments(page, limit))
                 : renderDocumentItem()}
             </tbody>
           </table>
+        </div>
+      </div>
+      <div className={cx("row")}>
+        <div className={cx("col-sm-2", "offset-sm-8")} data-bs-theme="dark">
+          <Pagination
+            totalPage={totalPage}
+            page={page}
+            limit={limit}
+            siblings={1}
+            onPageChange={handlePageChange}
+          />
         </div>
       </div>
     </div>
