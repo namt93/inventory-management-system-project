@@ -1,9 +1,10 @@
 import classNames from "classnames/bind";
 import styles from "./Rack.module.scss";
 import Button from "~/components/Button";
+import Pagination from "~/components/Pagination";
+import * as rackServices from "~/apiServices/rackServices";
 
 import { useState } from "react";
-import Pagination from "~/components/Pagination";
 
 const cx = classNames.bind(styles);
 
@@ -252,6 +253,7 @@ const RACK_ITEMS = [
 
 function Rack() {
   const [page, setPage] = useState(2);
+  const [rackResponse, setRackResponse] = useState([]);
   const limit = 6;
 
   let totalPage = Math.ceil(RACK_ITEMS.length / limit);
@@ -274,10 +276,19 @@ function Rack() {
     }
   };
 
-  const getRacks = (page, limit) => {
+  const getRacks = async () => {
+    const response = await rackServices.getRacks();
+    setRackResponse(response);
+  };
+
+  getRacks();
+
+  const getRenderRacks = (page, limit) => {
     let array = [];
     for (let i = (page - 1) * limit; i < page * limit; i++) {
-      array.push(RACK_ITEMS[i]);
+      if (i < rackResponse.length) {
+        array.push(rackResponse[i]);
+      }
     }
 
     return array;
@@ -331,7 +342,7 @@ function Rack() {
                 <th scope="col">Created at</th>
               </tr>
             </thead>
-            <tbody>{renderRackItems(getRacks(page, limit))}</tbody>
+            <tbody>{renderRackItems(getRenderRacks(page, limit))}</tbody>
             {/* <nav>
               <ul className={cx("pagination")}>
                 <li className={cx("page-item")}>
