@@ -252,11 +252,14 @@ const RACK_ITEMS = [
 ];
 
 function Rack() {
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [rackResponse, setRackResponse] = useState([]);
   const limit = 6;
 
-  let totalPage = Math.ceil(RACK_ITEMS.length / limit);
+  let totalPage = 1;
+  if (!!rackResponse) {
+    totalPage = Math.ceil(rackResponse.length / limit);
+  }
 
   const handlePageChange = (value) => {
     if (value === "&laquo;" || value === "... ") {
