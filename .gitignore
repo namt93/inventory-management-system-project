@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# Ignore node_modules and its child directories
+node_modules
+node_modules/*
+node_modules/
+
 # Distribution / packaging
 .Python
 build/
@@ -127,6 +132,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# Ignore node_modules and its child directories
-/front-end/inventory-ui/node_modules

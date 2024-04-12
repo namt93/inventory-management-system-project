@@ -5,7 +5,10 @@ from .models import Rack, RackGroup, User, Document, Borrowing
 
 class RackAdmin(admin.ModelAdmin):
     list_display = ["id", "rack_name", "rack_group", "user", "created_at"]
-    search_fields = ["rack_name", "rack_group__location", "rack_group__description", "user__username"]
+    search_fields = ["rack_name", 
+                     "rack_group__location", 
+                     "rack_group__description", 
+                     "user__username"]
     list_filter = ["rack_name", "rack_group__location"]
 
 

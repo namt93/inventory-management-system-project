@@ -659,7 +659,7 @@ function RackStatus() {
           <h2 className={cx("status--title", "col-sm-2")}>Breakdown Status</h2>
           <div className={cx("status--title", "col-sm-2", "offset-sm-7")}>
             <div className={cx("operation-actions")}>
-              <div>
+              {/* <div>
                 <Menu
                   items={OPERATION_ACTIONS}
                   sizeList="size-list-small-2"
@@ -681,7 +681,7 @@ function RackStatus() {
                 <Button to="/" secondary normal>
                   Export
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
